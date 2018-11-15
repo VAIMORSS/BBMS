@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+
+  
+<style>
+ span.glyphicon-user {
+    font-size: 1.2em;
+}
+.blue{
+    color:#9b846b
+}
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+</style>
+
+
+
+
+<script>
+   $(document).ready(function(){
+       //var a= new set();
+    $("#1").mouseenter(function(){
+        $("#1").css("color","red");
+    });
+    $("#2").mouseenter(function(){
+        $("#2").css("color","red");
+    });$("#5").mouseenter(function(){
+        $("#5").css("color","red");
+    });
+
+    $("button").click(function(event){    
+        alert(event.target.id);
+    });
+    
+    });
+
+    function myFunction() {
+    var x = document.getElementById("snackbar");
+    x.className = "show";
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+
+
+    
+
+</script>
+  <body>
+    
+    <div class="container">
+    
+    
+    <tr class="row">
+    {{#repeter data.number }}
+      
+       <button  id="{{#repeter1}}{{/repeter1}}" class="glyphicon glyphicon-user blue col-md-4 col-lg-2 col-sm-6 col-md-offset-1" style="font-size:100px; "></button>
+
+    {{/repeter}}
+    </tr>
+    </div>
+
+    <button onclick="myFunction()">Show Snackbar</button>
+
+<div id="snackbar">Some text some message..</div>
+  </body>
+</html>
+
+<i class=""></i>
