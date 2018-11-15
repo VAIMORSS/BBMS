@@ -73,15 +73,18 @@
     });
 
     $("button").click(function(event){    
-        alert(event.target.id);
+        //alert(event.target.id);
+        myFunction(event.target.id);
     });
     
     });
 
-    function myFunction() {
+    function myFunction(y) {
     var x = document.getElementById("snackbar");
     x.className = "show";
-    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+    x.innerText=y+" is present";
+    setTimeout(function(){ 
+        x.className = x.className.replace("show", ""); }, 1000);
 }
 
 
@@ -102,9 +105,8 @@
     </tr>
     </div>
 
-    <button onclick="myFunction()">Show Snackbar</button>
-
-<div id="snackbar">Some text some message..</div>
+    <div id="snackbar">Some text some message..</div>
+  
   </body>
 </html>
 
