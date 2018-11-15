@@ -46,6 +46,10 @@ var dataContent = JSON.parse(data);
 app.get("/", (req, res) => {
         res.render("viewTable");
 });
+app.post("/endpoint",(req,res)=>{
+  console.log("lala");
+  res.send("lala");
+});
 
 app.post("/logIn", (req, res) => {
    console.log(req.body.userNameLn);
