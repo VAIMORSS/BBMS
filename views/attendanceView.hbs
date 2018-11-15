@@ -61,6 +61,9 @@
 
 
 <script>
+
+    var present = new Set();
+
    $(document).ready(function(){
        //var a= new set();
     $("#1").mouseenter(function(){
@@ -74,10 +77,37 @@
 
     $("button").click(function(event){    
         //alert(event.target.id);
-        myFunction(event.target.id);
+      //  myFunction(event.target.id);
+        if(present.has(event.target.id)){
+            present.delete(event.target.id);
+        }else{
+            present.add(event.target.id);
+        }
     });
-    
+
+    $("#presentList").click(function(){ // to see all present 
+        var ppl="";
+        console.log(ppl + "1");
+        /*
+          something is pushing the id of the button in side the set and to remove that this funntion delete that
+        */
+        if(present.has('presentList')){
+            present.delete('presentList');// resolve this in an efficient way
+        }
+
+
+        present.forEach(pple =>{
+              ppl+='present '+ pple+'\n';
+        });
+        
+        console.log("is this working???");
+        console.log(ppl);
+        $("#presentpeople").text(ppl);
+    }); 
+   
     });
+
+
 
     function myFunction(y) {
     var x = document.getElementById("snackbar");
@@ -106,7 +136,8 @@
     </div>
 
     <div id="snackbar">Some text some message..</div>
-  
+    <button id="presentList">Click</button>
+    <p id="presentPeople"></p>
   </body>
 </html>
 
