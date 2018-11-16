@@ -108,6 +108,7 @@
         $("button").click(function (event) {
             //alert(event.target.id);
             //  myFunction(event.target.id);// resole the problem to make the butttton only for the button which are the present taker
+           
             if (present.has(event.target.id)) {
                 present.delete(event.target.id);
             } else {
@@ -130,17 +131,23 @@
                 ppl += 'present ' + pple + '\n';
             });
 
+            
             console.log("is this working???");
             console.log(ppl);
             $("#presentpeople").text(ppl);
         });
 
         $("#send").click(function(){
-
+            if(present.has('send')){
+            present.delete('send');
+            }
             var jsonObj = "[ ";
             present.forEach(pple => {
-                jsonObj += "{ id:\""+pple+"\"},";
+                jsonObj += "{ \"id\":\""+pple+"\"},";
+                console.log(pple+" this is Json");
             });
+            
+            
             jsonObj=jsonObj.substring(0, jsonObj.length-1);
             jsonObj+="]";
             
