@@ -8,14 +8,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
-
 <style>
     span.glyphicon-user {
         font-size: 1.2em;
     }
-
     .blue {
-        color: #9b846b
+        background-color: #fff;
+        border-width: 0ch;
     }
 
     #snackbar {
@@ -92,9 +91,11 @@
 <script>
 
     // make an object for each presentObject name an number if photo possible
-    var present = new Set();
 
     $(document).ready(function () {
+
+    var present = new Set();
+     
         //var a= new set();
         $("#1").mouseenter(function () {
             $("#1").css("color", "red");
@@ -141,22 +142,15 @@
             if(present.has('send')){
             present.delete('send');
             }
-            var jsonObj = "[ ";
-            present.forEach(pple => {
-                jsonObj += "{ \"id\":\""+pple+"\"},";
-                console.log(pple+" this is Json");
-            });
             
-            
-            jsonObj=jsonObj.substring(0, jsonObj.length-1);
-            jsonObj+="]";
-            
-            var jsonObjString = JSON.stringify(jsonObj);
-            var obj = JSON.parse(jsonObjString);
+            var jsonObjString = JSON.stringify([...present]);
             $.ajax({
+                dataType: 'text',
                 type : 'POST',
                 url : 'http://localhost:8080/endpoint',
-                data: obj,
+                data: {
+                    data: jsonObjString
+                },
                 success : function(newList){
                     myFunction("All is well");
                 },
@@ -179,7 +173,6 @@
             x.className = x.className.replace("show", "");
         }, 1000);
     }
-
 
 
 
