@@ -15,7 +15,9 @@
     }
 
     .blue {
-        color: #9b846b
+        background-color: #fff;
+        border-color: #fff;
+        border-width: 0ch;
     }
 
     #snackbar {
@@ -108,7 +110,6 @@
         $("button").click(function (event) {
             //alert(event.target.id);
             //  myFunction(event.target.id);// resole the problem to make the butttton only for the button which are the present taker
-           
             if (present.has(event.target.id)) {
                 present.delete(event.target.id);
             } else {
@@ -131,27 +132,21 @@
                 ppl += 'present ' + pple + '\n';
             });
 
-            
             console.log("is this working???");
             console.log(ppl);
             $("#presentpeople").text(ppl);
         });
 
         $("#send").click(function(){
-            if(present.has('send')){
-            present.delete('send');
-            }
-            var jsonObj = "[ ";
+
+            /*var jsonObj = "[ ";
             present.forEach(pple => {
-                jsonObj += "{ \"id\":\""+pple+"\"},";
-                console.log(pple+" this is Json");
+                jsonObj += "{ id:\""+pple+"\"},";
             });
-            
-            
             jsonObj=jsonObj.substring(0, jsonObj.length-1);
             jsonObj+="]";
-            
-            var jsonObjString = JSON.stringify(jsonObj);
+            */
+            var jsonObjString = JSON.stringify(present);
             var obj = JSON.parse(jsonObjString);
             $.ajax({
                 type : 'POST',
@@ -180,9 +175,6 @@
         }, 1000);
     }
 
-
-
-
 </script>
 
 <body>
@@ -194,7 +186,7 @@
             {{#repeter data.number }}
 
             <button id="{{#repeter1}}{{/repeter1}}" class="glyphicon glyphicon-user blue col-md-4 col-lg-2 col-sm-6 col-md-offset-1"
-                style="font-size:100px; "></button>
+                style="font-size:10px; "></button>
 
             {{/repeter}}
         </tr>

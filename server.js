@@ -48,7 +48,8 @@ app.get("/", (req, res) => {
 });
 app.post("/endpoint",(req,res)=>{
   console.log("lala");
-  res.send("lala");
+  res.send("<p>lala</p>");
+  console.log(req.body);
 });
 
 app.post("/logIn", (req, res) => {
