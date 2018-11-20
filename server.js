@@ -14,11 +14,13 @@ function onHttpStart() {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.engine(".hbs", exphbs({ extname: ".hbs" }));
-
-Handlebars.registerHelper('a',function(option){
-   console.log("Helper called...");
-   return '<strong>'+option.fn(this) + '</strong>';
-});
+app.use(express.static('public'));
+/******
+ * 
+ * All the Handlebars and their helpers 
+ * 
+ * 
+ * ************** */
 
 Handlebars.registerHelper('repeter',function(contex,option){
     console.log("Helper called...");
@@ -28,6 +30,7 @@ Handlebars.registerHelper('repeter',function(contex,option){
     }
     return s;
 });
+
 var i=0;//try to make this part in the client side server
 Handlebars.registerHelper('repeter1',function(option){
     console.log("Helper called...");
@@ -38,6 +41,21 @@ Handlebars.registerHelper('repeter1',function(option){
     console.log(i);
     return i;
 });
+
+//helper to direct the request at the different part of the application
+
+Handlebars.registerHelper('router',function(url, options){
+    return '<li'+((app.locals.activeRoute==url)?'class="active"':'')+'> <a href="'+url+'">'+ options.fn(this)+'</a></li>';
+});
+
+//for refreash
+app.use(function(req,res,next){
+    let route=req.baseUrl+req.path;
+    app.locals.activeRoute=(route=="/")?"/":route.replace(/\/$/,"");
+    next();
+})
+
+
 app.set("view engine", ".hbs");
 
 var data=fs.readFileSync("Json/data.json");
@@ -46,25 +64,41 @@ var dataContent = JSON.parse(data);
 app.get("/", (req, res) => {
         res.render("viewTable");
 });
-app.post("/endpoint",(req,res)=>{
+
+
+
+app.post("/endpoint",(req, res)=>{
   console.log("lala");
+
   res.send("<p>lala</p>");
   console.log(req.body);
+
+  console.log(req.body.data);
+  var json_data = JSON.parse(req.body.data);
+//we are getting the string of the people who are presented now we just have to make sure that at a time more than one people can access this system 
+//if we are sending some response to is there are some problem which says the "Can't set headers after they are sent to the client"
 });
+
 
 app.post("/logIn", (req, res) => {
    console.log(req.body.userNameLn);
    console.log(req.body.passwordLn);
 
    if((req.body.userNameLn).toString()=='a' ){
+    res.render("layouts/main",{
+        data: dataContent
+    });
       
-      res.render("attendanceView",{
-         
-           data : dataContent
-       });
    }
 });
-
+app.get("/attendance",(req,res)=>{
+    res.render("attendanceView",{
+        data: dataContent,
+        layout: "main"    
+    });
+    
+});
+    
 app.post("/signUp",(req,res)=>{
     
     res.render("signup");

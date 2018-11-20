@@ -1,204 +1,26 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
-
-
-<style>
-    span.glyphicon-user {
-        font-size: 1.2em;
-    }
-
-    .blue {
-        background-color: #fff;
-        border-color: #fff;
-        border-width: 0ch;
-    }
-
-    #snackbar {
-        visibility: hidden;
-        min-width: 250px;
-        margin-left: -125px;
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        border-radius: 2px;
-        padding: 16px;
-        position: fixed;
-        z-index: 1;
-        left: 50%;
-        bottom: 30px;
-        font-size: 17px;
-    }
-
-    #snackbar.show {
-        visibility: visible;
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    }
-
-    @-webkit-keyframes fadein {
-        from {
-            bottom: 0;
-            opacity: 0;
-        }
-
-        to {
-            bottom: 30px;
-            opacity: 1;
-        }
-    }
-
-    @keyframes fadein {
-        from {
-            bottom: 0;
-            opacity: 0;
-        }
-
-        to {
-            bottom: 30px;
-            opacity: 1;
-        }
-    }
-
-    @-webkit-keyframes fadeout {
-        from {
-            bottom: 30px;
-            opacity: 1;
-        }
-
-        to {
-            bottom: 0;
-            opacity: 0;
-        }
-    }
-
-    @keyframes fadeout {
-        from {
-            bottom: 30px;
-            opacity: 1;
-        }
-
-        to {
-            bottom: 0;
-            opacity: 0;
-        }
-    }
-</style>
-
-<script>
-
-    // make an object for each presentObject name an number if photo possible
-    var present = new Set();
-
-    $(document).ready(function () {
-        //var a= new set();
-        $("#1").mouseenter(function () {
-            $("#1").css("color", "red");
-        });
-        $("#2").mouseenter(function () {
-            $("#2").css("color", "red");
-        }); $("#5").mouseenter(function () {
-            $("#5").css("color", "red");
-        });
-
-        $("button").click(function (event) {
-            //alert(event.target.id);
-            //  myFunction(event.target.id);// resole the problem to make the butttton only for the button which are the present taker
-            if (present.has(event.target.id)) {
-                present.delete(event.target.id);
-            } else {
-                present.add(event.target.id);
-            }
-        });
-
-        $("#presentList").click(function () { // to see all present 
-            var ppl = "";
-            console.log(ppl + "1");
-            /*
-              something is pushing the id of the button in side the set and to remove that this funntion delete that
-            */
-            if (present.has('presentList')) {
-                present.delete('presentList');// resolve this in an efficient way
-            }
-
-
-            present.forEach(pple => {
-                ppl += 'present ' + pple + '\n';
-            });
-
-            console.log("is this working???");
-            console.log(ppl);
-            $("#presentpeople").text(ppl);
-        });
-
-        $("#send").click(function(){
-
-            /*var jsonObj = "[ ";
-            present.forEach(pple => {
-                jsonObj += "{ id:\""+pple+"\"},";
-            });
-            jsonObj=jsonObj.substring(0, jsonObj.length-1);
-            jsonObj+="]";
-            */
-            var jsonObjString = JSON.stringify(present);
-            var obj = JSON.parse(jsonObjString);
-            $.ajax({
-                type : 'POST',
-                url : 'http://localhost:8080/endpoint',
-                data: obj,
-                success : function(newList){
-                    myFunction("All is well");
-                },
-                error: function(){
-                    alert('some thing went wrong');
-                }
-            });
-            
-        });
-
-    });
-
-
-    // function to show toast
-    function myFunction(y) {
-        var x = document.getElementById("snackbar");
-        x.className = "show";
-        x.innerText = y + " is present";
-        setTimeout(function () {
-            x.className = x.className.replace("show", "");
-        }, 1000);
-    }
-
-</script>
-
-<body>
-
-    <div class="container">
-
-
+<div class="container">
+    <div class="people">
         <tr class="row">
             {{#repeter data.number }}
-
-            <button id="{{#repeter1}}{{/repeter1}}" class="glyphicon glyphicon-user blue col-md-4 col-lg-2 col-sm-6 col-md-offset-1"
-                style="font-size:10px; "></button>
-
+            <button id="{{#repeter1}}{{/repeter1}}" class="glyphicon glyphicon-user blue col-xs-12 col-sm-6 col-md-4 col-lg-2 btn btn-default icon"></button>
             {{/repeter}}
         </tr>
     </div>
 
     <div id="snackbar">Some text some message..</div>
-    <button id="presentList">Click</button>
     <p id="presentPeople"></p>
+</div>
+<div class="progress">
+    <div id="Present" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width:50%">
+        Present
+    </div>
+    <div id="Absent" class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width:50%">
+        Absent
+    </div>
+    {{!-- add one bar here for late also --}}
+</div>
+<div class="btn-group-lg sendRecive">
+    <button class="btn btn-primary" id="presentList">Click</button>
+    <button class="btn btn-primary" id="send">Send</button>
+</div>
 
-    <button id="send">Send</button>
-</body>
-
-</html>
-
-<i class=""></i>
