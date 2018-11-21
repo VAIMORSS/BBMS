@@ -7,7 +7,7 @@ const path = require("path");
 const Handlebars = require("handlebars");
 const HTTP_PORT = process.env.PORT || 8080;
 const  fs = require("fs");
-
+const dataFetcher=require("./dataFetcher.js");
 function onHttpStart() {
   console.log("Express http server listening on: " + HTTP_PORT);
 }   
@@ -45,7 +45,7 @@ Handlebars.registerHelper('repeter1',function(option){
 //helper to direct the request at the different part of the application
 
 Handlebars.registerHelper('router',function(url, options){
-    return '<li'+((app.locals.activeRoute==url)?'class="active"':'')+'> <a href="'+url+'">'+ options.fn(this)+'</a></li>';
+    return '<li '+((app.locals.activeRoute==url)?'class="active"':'')+'> <a href="'+url+'">'+ options.fn(this)+'</a></li>';
 });
 
 //for refreash
@@ -66,8 +66,12 @@ app.get("/", (req, res) => {
 });
 
 
+/******
+ * ALL from submissions 
+ *
+ */
 
-app.post("/endpoint",(req, res)=>{
+ app.post("/endpoint",(req, res)=>{
   console.log("lala");
 
   res.send("<p>lala</p>");
@@ -91,6 +95,15 @@ app.post("/logIn", (req, res) => {
       
    }
 });
+
+app.post("/addPerson",(req,res)=>{
+    dataFetcher.addPerson(req.body).then((data=>{
+        console.log(req.body);
+    }));
+    res.redirect("/addPerson");
+});
+
+//////////////From Submission //////////////
 app.get("/attendance",(req,res)=>{
     res.render("attendanceView",{
         data: dataContent,
@@ -101,29 +114,36 @@ app.get("/attendance",(req,res)=>{
     
 app.get("/signUp",(req,res)=>{
     res.render("signup",{
-        layout:"main"
+        layout:"main",
+        data: dataContent
+        
     });
 });
 app.get("/addPerson",(req,res)=>{
     res.render("addPerson",{
-        layout:"main"
+        layout:"main",
+        data: dataContent
     });
 });app.get("/signUp",(req,res)=>{
     res.render("signup",{
-        layout:"main"
+        layout:"main",
+        data: dataContent
     });
 });app.get("/monthlyReport",(req,res)=>{
     res.render("monthlyReport",{
-        layout:"main"
+        layout:"main",
+        data: dataContent
     });
 });app.get("/attendanceReport",(req,res)=>{
     res.render("attendanceReport",{
-        layout:"main"
+        layout:"main",
+        data: dataContent
     });
 });
 app.get("/news",(req,res)=>{
     res.render("news",{
-        layout:"main"
+        layout:"main",
+        data: dataContent
     });
 });
 app.get("/logout",(req,res)=>{

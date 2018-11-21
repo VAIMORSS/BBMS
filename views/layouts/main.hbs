@@ -51,8 +51,8 @@
         .progress{
             margin: 5%;
         }
-        .active{
-            text-align: center;
+        .form-group{
+            margin: 5%;
         }
         #snackbar {
             visibility: hidden;
@@ -153,7 +153,7 @@
                     present.add(event.target.id);
                     percent++;
                 }
-                var per = percent / {{ data.number }} * 100;
+            var per = percent / {{ data.number }} * 100;
             var presented = document.getElementById("Present");
             presented.style.width = per + '%';
             presented.textContent = per.toFixed(0) + ' % are Present';
@@ -211,6 +211,8 @@
 
         });
 
+        
+
         });
 
         // function to show toast
@@ -231,7 +233,7 @@
 <body>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
-
+            <div class="topheader">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
                     aria-expanded="false">
@@ -258,7 +260,7 @@
                     <li>{{#router "/logout"}}Log Out{{/router}}</li>
                 </ul>
             </div>
-
+</div>
         </div>
     </nav>
 
