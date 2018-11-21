@@ -12,6 +12,7 @@
     span.glyphicon-user {
         font-size: 1.2em;
     }
+
     .blue {
         background-color: #fff;
         border-width: 0ch;
@@ -86,6 +87,11 @@
             opacity: 0;
         }
     }
+
+    .class {
+        margin: 10%;
+
+    }
 </style>
 
 <script>
@@ -94,8 +100,8 @@
 
     $(document).ready(function () {
 
-    var present = new Set();
-     
+        var present = new Set();
+
         //var a= new set();
         $("#1").mouseenter(function () {
             $("#1").css("color", "red");
@@ -109,7 +115,7 @@
         $("button").click(function (event) {
             //alert(event.target.id);
             //  myFunction(event.target.id);// resole the problem to make the butttton only for the button which are the present taker
-           
+
             if (present.has(event.target.id)) {
                 present.delete(event.target.id);
             } else {
@@ -132,33 +138,33 @@
                 ppl += 'present ' + pple + '\n';
             });
 
-            
+
             console.log("is this working???");
             console.log(ppl);
             $("#presentpeople").text(ppl);
         });
 
-        $("#send").click(function(){
-            if(present.has('send')){
-            present.delete('send');
+        $("#send").click(function () {
+            if (present.has('send')) {
+                present.delete('send');
             }
-            
+
             var jsonObjString = JSON.stringify([...present]);
             $.ajax({
                 dataType: 'text',
-                type : 'POST',
-                url : 'http://localhost:8080/endpoint',
+                type: 'POST',
+                url: 'http://localhost:8080/endpoint',
                 data: {
                     data: jsonObjString
                 },
-                success : function(newList){
+                success: function (newList) {
                     myFunction("All is well");
                 },
-                error: function(){
+                error: function () {
                     alert('some thing went wrong');
                 }
             });
-            
+
         });
 
     });
@@ -179,25 +185,31 @@
 </script>
 
 <body>
+    <div class="class">
+        <div class="container">
+            <tr class="row">
+                {{#repeter data.number }}
 
-    <div class="container">
+                <button id="{{#repeter1}}{{/repeter1}}" class="glyphicon glyphicon-user blue col-md-4 col-lg-2 col-sm-6 col-md-offset-1"
+                    style="font-size:100px; "></button>
 
+                {{/repeter}}
+            </tr>
+        </div>
 
-        <tr class="row">
-            {{#repeter data.number }}
+        <div id="snackbar">Some text some message..</div>
 
-            <button id="{{#repeter1}}{{/repeter1}}" class="glyphicon glyphicon-user blue col-md-4 col-lg-2 col-sm-6 col-md-offset-1"
-                style="font-size:100px; "></button>
-
-            {{/repeter}}
-        </tr>
+        <p id="presentPeople"></p>
+        <li>
+            <ul>
+                <button id="presentList">Click</button>
+            </ul>
+            <ul>
+                <button id="send">Send</button>
+            </ul>
+        </li>
     </div>
 
-    <div id="snackbar">Some text some message..</div>
-    <button id="presentList">Click</button>
-    <p id="presentPeople"></p>
-
-    <button id="send">Send</button>
 </body>
 
 </html>
