@@ -10,22 +10,22 @@ var Sequelize = new sequelize('d558e7l0prgtpo', 'bhttoyjbvistmo', '24f9a4f901a99
     }
 });
 
-Sequelize.authenticate.then(() => {
-    console.log("Database conncted successfully!!!");
+Sequelize.authenticate().then(() => {
+    console.log('Connection has been established successfully.');
 }).catch((err) => {
-    console.log(err);
+    console.log('Unable to connect to the database:', err);
 });
 
 const Person = Sequelize.define('Person', {
     PersonNum: {
-        type: Sequelize.INTEGER,
+        type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    firstName: Sequelize.STRING,
-    lastName: Sequelize.STRING,
-    std: Sequelize.INTEGER,
-    school: Sequelize.STRING
+    firstName: sequelize.STRING,
+    lastName: sequelize.STRING,
+    std: sequelize.INTEGER,
+    school: sequelize.STRING
 }, {
         updatedAt: false
     });
@@ -38,37 +38,89 @@ var totalPerson = 0;
 module.exports.initialize = () => {
     return new Promise((resolve, reject) => {
             Sequelize.sync().then((Person) => {
-                resolve();
+                resolve("Synced successfully!!");
             }).catch((err) => {
                 reject("unable to read the files");
             });
     });
 }
 
-module.exports.getAllPerson = () => {
+module.exports.getPersonByNum = (num) => {
     var allPerson = [];
     return new Promise((resolve, reject) => {
-        for (var i = 0; i < totalPerson; i++) {
-            allPerson.push(person[i]);
-        }
-        if (allPerson.length == 0) {
-            reject("no record found");
-        }
+        Sequelize.sync().then(()=>{
+            resolve(Person.findAll({
+                where:{
+                    PersonNum=num
+                }
+            }))
+        });
         resolve(allPerson);
     });
 }
 
+module.exports.getPersonAll = (num) => {
+    var allPerson = [];
+    return new Promise((resolve, reject) => {
+        Sequelize.sync().then(()=>{
+            resolve(Person.findAll());
+        }).catch((err)=>{
+            reject(err);
+        });
+        resolve(allPerson);
+    });
+}
+
+module.exports.updatePerson = (personData) => {
+    return new Promise((resolve, reject) => {
+       Sequelize.sync().then(()=>{
+                
+        for(let x in personData){
+            if(personData[x]==""){
+                personData[x]=null;
+            }
+        }
+
+        resolve(Person.update({
+            firstName:personData.firstName,
+            lastName:personData.lastName,
+            std:personData.std,
+            school:personData.school
+
+        },{where :{
+            PersonNum=personData.PersonNum
+        }}).catch((err)=>{
+            reject(err);
+        }));
+        
+       }).catch((err)=>{
+           reject(err);
+       });  
+      });
+}
+
 module.exports.addPerson = (personData) => {
     return new Promise((resolve, reject) => {
-        person.push(personData);
-        console.log("data added");
-        if (person.length == 0) {
-            reject("no record found");
+       Sequelize.sync().then(()=>{
+                
+        for(let x in personData){
+            if(personData[x]==""){
+                personData[x]=null;
+            }
         }
-        for (var i = 0; i < person.length; i++) {
-            console.log("from loop");
-            console.log(person);
-        }
-        resolve(personData);
-    });
+
+        resolve(Person.create({
+            firstName:personData.firstName,
+            lastName:personData.lastName,
+            std:personData.std,
+            school:personData.school
+
+        }).catch((err)=>{
+            reject(err);
+        }));
+        
+       }).catch((err)=>{
+           reject(err);
+       });  
+      });
 }
