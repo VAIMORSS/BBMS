@@ -17,37 +17,32 @@
         </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
     <style>
         span.glyphicon-user {
             font-size: 1.2em;
         }
-
         .container {
             text-align: center;
         }
-
         .blue {
             background-color: #fff;
             border-color: #fff;
             border-width: 0ch;
         }
-
         .people {
             background-color: #fff;
             text-align: center;
         }
-
         .icon {
             font-size: 100px;
             width: 120px;
         }
-
         .sendRecive {
             padding: 10%;
             text-align: center;
         }
-
         .progress{
             margin: 5%;
         }
@@ -69,55 +64,47 @@
             bottom: 30px;
             font-size: 17px;
         }
-
         #snackbar.show {
             visibility: visible;
             -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
             animation: fadein 0.5s, fadeout 0.5s 2.5s;
         }
-
+        
         @-webkit-keyframes fadein {
             from {
                 bottom: 0;
                 opacity: 0;
             }
-
             to {
                 bottom: 30px;
                 opacity: 1;
             }
         }
-
         @keyframes fadein {
             from {
                 bottom: 0;
                 opacity: 0;
             }
-
             to {
                 bottom: 30px;
                 opacity: 1;
             }
         }
-
         @-webkit-keyframes fadeout {
             from {
                 bottom: 30px;
                 opacity: 1;
             }
-
             to {
                 bottom: 0;
                 opacity: 0;
             }
         }
-
         @keyframes fadeout {
             from {
                 bottom: 30px;
                 opacity: 1;
             }
-
             to {
                 bottom: 0;
                 opacity: 0;
@@ -126,11 +113,8 @@
     </style>
 
     <script>
-
         // make an object for each presentObject name an number if photo possible
-
         $(document).ready(function () {
-
             var present = new Set();
             var percent = 0;
             //var a= new set();
@@ -142,7 +126,6 @@
             }); $("#5").mouseenter(function () {
                 $("#5").css("color", "red");
             });
-
             $(".people button").click(function (event) {
                 //alert(event.target.id);
                 //  myFunction(event.target.id);// resole the problem to make the butttton only for the button which are the present taker
@@ -160,9 +143,7 @@
             var absent = document.getElementById("Absent");
             absent.style.width = 100 - per + '%';
             absent.textContent = 100 - per.toFixed(0) + ' % are Absent';
-
         });
-
         $("#presentList").click(function () { // to see all present 
             var ppl = "";
             console.log(ppl + "1");
@@ -172,28 +153,20 @@
             if (present.has('presentList')) {
                 present.delete('presentList');// resolve this in an efficient way
             }
-
-
             present.forEach(pple => {
                 ppl += 'present ' + pple + '\n';
             });
-
             console.log("is this working???");
             console.log(ppl);
             $("#presentpeople").text(ppl);
         });
-
         $("#send").click(function () {
-
             var jsonObjString = JSON.stringify(present);
             var obj = JSON.parse(jsonObjString);
-
             if (present.has('send')) {
                 present.delete('send');
             }
-
             var jsonObjString = JSON.stringify([...present]);
-
             $.ajax({
                 dataType: 'text',
                 type: 'POST',
@@ -208,13 +181,9 @@
                     alert('some thing went wrong');
                 }
             });
-
         });
-
         
-
         });
-
         // function to show toast
         function myFunction(y) {
             var x = document.getElementById("snackbar");
@@ -224,7 +193,7 @@
                 x.className = x.className.replace("show", "");
             }, 1000);
         }
-
+        
     </script>
 
 
@@ -248,16 +217,17 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li>{{#router "/news"}}News{{/router}}</li>
-                    <li>{{#router "/attendance"}}attendance{{/router}}</li>
-                    <li>{{#router "/addPerson"}}Add Person{{/router}}</li>
+                    {{#router "/news"}}News{{/router}}
+                    {{#router "/attendance"}}attendance{{/router}}
+                    {{#router "/addPerson"}}Add Person{{/router}}
+                    
                 </ul>
                     {{!-- the selected tab is moving---solve the problem --}}
-
+                
                 <ul class="nav navbar-nav navbar-right">
-                    <li>{{#router "/monthlyReport"}}Monthly Report{{/router}}</li>
-                    <li>{{#router "/attendanceReport"}}Attendance Report{{/router}}</li>
-                    <li>{{#router "/logout"}}Log Out{{/router}}</li>
+                    {{#router "/monthlyReport"}}Monthly Report{{/router}}
+                    {{#router "/attendanceReport"}}Attendance Report{{/router}}
+                    {{#router "/logout"}}Log Out{{/router}}
                 </ul>
             </div>
 </div>
