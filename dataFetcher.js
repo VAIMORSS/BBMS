@@ -37,9 +37,15 @@ var sequelize = require('sequelize');
             autoIncrement: true
         },
         userName: sequelize.STRING,
-        password: sequelize.STRING
+        password: sequelize.STRING,
+        firstName: sequelize.STRING,
+        personNumber: sequelize.NUMERIC,
+        lastName: sequelize.STRING,
+        personTable: sequelize.STRING,
+        
         }, {
-        updatedAt: false
+        updatedAt: false,
+        createdAt: false
         });
 
 var person = [];
@@ -73,8 +79,7 @@ module.exports.initialize = () => {
 }
 
 module.exports.getPersonByNum = (num) => {
-    var allPerson = [];
-    return new Promise((resolve, reject) => {
+    var allPerson = [];    return new Promise((resolve, reject) => {
         Sequelize.sync().then(()=>{
             resolve(Person.findAll({
                 where:{
