@@ -8,6 +8,7 @@ const Handlebars = require("handlebars");
 const HTTP_PORT = process.env.PORT || 8080;
 const  fs = require("fs");
 const dataFetcher=require("./dataFetcher.js");
+const clientSessions = require("client-sessions");
 function onHttpStart() {
   console.log("Express http server listening on: " + HTTP_PORT);
 }   
@@ -83,20 +84,44 @@ app.get("/", (req, res) => {
 //if we are sending some response to is there are some problem which says the "Can't set headers after they are sent to the client"
 });
 
+//client sessiion testing
+app.use(clientSessions({
+    cookieName: "session", // this is the object name that will be added to 'req'
+    secret: "week10example_web322", // this should be a long un-guessable string.
+    duration: 2 * 60 * 1000, // duration of the session in milliseconds (2 minutes)
+    activeDuration: 1000 * 60 // the session will be extended by this many ms each request (1 minute)
+  }));
+
+  const user = {
+    username: "k",
+    password: "k",
+  };
+
+//testing done
+
+function ensureLogin(req, res, next) {
+    if (!req.session.user) {
+      res.redirect("/");
+    } else {
+      next();
+    }
+  }
 
 app.post("/logIn", (req, res) => {
-   console.log(req.body.userNameLn);
-   console.log(req.body.passwordLn);
-
+    user.username=req.body.userNameLn;
+    user.password=req.body.passwordLn;
    if((req.body.userNameLn).toString()=='a' ){
+    user:req.session.user;
     res.render("layouts/main",{
-        data: dataContent
+        data:dataContent
     });
-      
+    
+   }else{
+       res.redirect("/");
    }
 });
 
-app.post("/addPerson",(req,res)=>{
+app.get("/addPerson",ensureLogin,(req,res)=>{
     dataFetcher.addPerson(req.body).then((data=>{
         console.log(req.body);
     }));
@@ -119,12 +144,8 @@ app.get("/signUp",(req,res)=>{
         
     });
 });
-app.get("/addPerson",(req,res)=>{
-    res.render("addPerson",{
-        layout:"main",
-        data: dataContent
-    });
-});app.get("/signUp",(req,res)=>{
+
+app.get("/signUp",(req,res)=>{
     res.render("signup",{
         layout:"main",
         data: dataContent
@@ -147,6 +168,8 @@ app.get("/news",(req,res)=>{
     });
 });
 app.get("/logout",(req,res)=>{
+    req.session.reset();
     res.render("viewTable");
+
 });
 app.listen(HTTP_PORT, onHttpStart);
