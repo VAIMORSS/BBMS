@@ -93,8 +93,8 @@ app.use(clientSessions({
   }));
 
   const user = {
-    username: "k",
-    password: "k",
+    username: 'k',
+    password: 'k'
   };
 
 //testing done
@@ -108,10 +108,12 @@ function ensureLogin(req, res, next) {
   }
 
 app.post("/logIn", (req, res) => {
-    user.username=req.body.userNameLn;
-    user.password=req.body.passwordLn;
+    
    if((req.body.userNameLn).toString()=='a' ){
-    user:req.session.user;
+    req.session.user={
+        username:user.username,
+        password:user.password
+    };
     res.render("layouts/main",{
         data:dataContent
     });
@@ -129,7 +131,7 @@ app.get("/addPerson",ensureLogin,(req,res)=>{
 });
 
 //////////////From Submission //////////////
-app.get("/attendance",(req,res)=>{
+app.get("/attendance",ensureLogin,(req,res)=>{
     res.render("attendanceView",{
         data: dataContent,
         layout: "main"    
@@ -145,23 +147,19 @@ app.get("/signUp",(req,res)=>{
     });
 });
 
-app.get("/signUp",(req,res)=>{
-    res.render("signup",{
-        layout:"main",
-        data: dataContent
-    });
-});app.get("/monthlyReport",(req,res)=>{
+
+app.get("/monthlyReport",ensureLogin,(req,res)=>{
     res.render("monthlyReport",{
         layout:"main",
         data: dataContent
     });
-});app.get("/attendanceReport",(req,res)=>{
+});app.get("/attendanceReport",ensureLogin,(req,res)=>{
     res.render("attendanceReport",{
         layout:"main",
         data: dataContent
     });
 });
-app.get("/news",(req,res)=>{
+app.get("/news",ensureLogin,(req,res)=>{
     res.render("news",{
         layout:"main",
         data: dataContent
