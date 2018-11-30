@@ -18,13 +18,29 @@ function onHttpStart() {
 /***
  * Using client-session 
  */
+app.use(clientSession({
+    cookieName: "session", // this is the object name that will be added to 'req'
+    secret: "bbmsbeta", // this should be a long un-guessable string.
+    duration: 2 * 60 * 1000, // duration of the session in milliseconds (2 minutes)
+    activeDuration: 1000 * 60 // the session will be extended by this many ms each request (1 minute)
+  }));
 
- app.use(clientSession({
-     cookieName:"session",
-     secret:"BBMS",
-     duration:60*60*1000,
-     activeDuration: 5*60*1000
- }));
+  const user = {
+    username: 'k',
+    password: 'k'
+  };
+
+//testing done
+
+function ensureLogin(req, res, next) {
+    if (!req.session.user) {
+      res.redirect("/");
+    } else {
+      next();
+    }
+  }
+
+
 
 /***
  * Done client-session 
@@ -117,14 +133,19 @@ app.post("/logIn", (req, res) => {
     
 dataFetcher.authenticate(req.body.userNameLn,req.body.passwordLn).then((data)=>{
         if(data!=""){
+            req.session.user={
+                username:user.username,
+                password:user.password
+            };
+            
             res.render("layouts/main");        
         }else{
             res.redirect("/");
         }
        
-        var user= JSON.stringify(data);
-        user= JSON.parse(user);
-        console.log(user.id);
+        // var user= JSON.stringify(data);
+        // user= JSON.parse(user);
+        // console.log(user.id);
     });
    
 
@@ -145,7 +166,7 @@ dataFetcher.authenticate(req.body.userNameLn,req.body.passwordLn).then((data)=>{
  * User data registering, updating  
  */
 
-app.post("/addPerson", (req, res) => {
+app.post("/addPerson",ensureLogin, (req, res) => {
     dataFetcher.addPerson(req.body).then((data => {
         console.log(req.body);
     }));
@@ -164,7 +185,7 @@ app.post("/addPerson", (req, res) => {
 
 
 //////////////From Submission //////////////
-app.get("/attendance", (req, res) => {
+app.get("/attendance",ensureLogin, (req, res) => {
     res.render("attendanceView", {
         data: dataContent,
         layout: "main"
@@ -179,37 +200,33 @@ app.get("/signUp", (req, res) => {
 
     });
 });
-app.get("/addPerson", (req, res) => {
+app.get("/addPerson",ensureLogin, (req, res) => {
     res.render("addPerson", {
         layout: "main",
         data: dataContent
     });
 });
-app.get("/signUp", (req, res) => {
-    res.render("signup", {
-        layout: "main",
-        data: dataContent
-    });
-});
-app.get("/monthlyReport", (req, res) => {
+
+app.get("/monthlyReport",ensureLogin, (req, res) => {
     res.render("monthlyReport", {
         layout: "main",
         data: dataContent
     });
 });
-app.get("/attendanceReport", (req, res) => {
+app.get("/attendanceReport",ensureLogin, (req, res) => {
     res.render("attendanceReport", {
         layout: "main",
         data: dataContent
     });
 });
-app.get("/news", (req, res) => {
+app.get("/news",ensureLogin, (req, res) => {
     res.render("news", {
         layout: "main",
         data: dataContent
     });
 });
 app.get("/logout", (req, res) => {
+    req.session.reset();
     res.render("viewTable");
 });
 app.listen(HTTP_PORT, onHttpStart);
