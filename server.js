@@ -21,7 +21,7 @@ function onHttpStart() {
 app.use(clientSession({
     cookieName: "session", // this is the object name that will be added to 'req'
     secret: "bbmsbeta", // this should be a long un-guessable string.
-    duration: 2 * 60 * 1000, // duration of the session in milliseconds (2 minutes)
+    duration: 15 * 60 * 1000, // duration of the session in milliseconds (2 minutes)
     activeDuration: 1000 * 60 // the session will be extended by this many ms each request (1 minute)
   }));
 
@@ -120,6 +120,8 @@ app.get("/", (req, res) => {
 
 app.post("/endpoint", (req, res) => {
     var json_data = JSON.parse(req.body.data);
+    res.send("<p>lala</p>");
+    console.log(req.body);
 });
 
 
@@ -127,16 +129,32 @@ app.post("/endpoint", (req, res) => {
  * Login 
  */
 
+var userLogIn={
+    id:'1',
+    userName:'a',
+    passWord:'a',
+    firstName:'a',
+    personNumber:'0',
+    lastname:'a',
+    personTable:'tbl'
 
+}
 
 app.post("/logIn", (req, res) => {
     
 dataFetcher.authenticate(req.body.userNameLn,req.body.passwordLn).then((data)=>{
+    
         if(data!=""){
+            {userLogIn:data.JSON;}
             req.session.user={
                 username:user.username,
                 password:user.password
             };
+
+            console.log(data);
+            console.log(userLogIn);
+
+            
             
             res.render("layouts/main");        
         }else{
@@ -166,10 +184,19 @@ dataFetcher.authenticate(req.body.userNameLn,req.body.passwordLn).then((data)=>{
  * User data registering, updating  
  */
 
+var add = {
+    firstName:'a',
+    lastName:'a',
+    school:'a',
+    std:'1'
+}
+
 app.post("/addPerson",ensureLogin, (req, res) => {
-    dataFetcher.addPerson(req.body).then((data => {
+   // dataFetcher.addPerson(req.body).then((data => {
         console.log(req.body);
-    }));
+        {add:req.body;}
+        console.log(add.firstName);
+    //}));
     res.redirect("/addPerson");
 });
 
@@ -197,7 +224,6 @@ app.get("/signUp", (req, res) => {
     res.render("signup", {
         layout: "main",
         data: dataContent
-
     });
 });
 app.get("/addPerson",ensureLogin, (req, res) => {
