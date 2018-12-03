@@ -24,7 +24,7 @@ app.use(express.static('public'));
  * ************** */
 
 Handlebars.registerHelper('repeter',function(contex,option){
-    console.log("Helper called...");
+    // console.log("Helper called...");
     var s="";
     for(var i=0;i<contex;i++){
         s+='<strong>'+option.fn(this) + '</strong>';
@@ -34,12 +34,12 @@ Handlebars.registerHelper('repeter',function(contex,option){
 
 var i=0;//try to make this part in the client side server
 Handlebars.registerHelper('repeter1',function(option){
-    console.log("Helper called...");
+    // console.log("Helper called...");
     if(i>=dataContent.number){
         i=0;
     }
     i++;
-    console.log(i);
+    ///console.log(i);
     return i;
 });
 
@@ -88,8 +88,8 @@ app.get("/", (req, res) => {
 app.use(clientSessions({
     cookieName: "session", // this is the object name that will be added to 'req'
     secret: "week10example_web322", // this should be a long un-guessable string.
-    duration: 2 * 60 * 1000, // duration of the session in milliseconds (2 minutes)
-    activeDuration: 1000 * 60 // the session will be extended by this many ms each request (1 minute)
+    duration: 20 * 60 * 1000, // duration of the session in milliseconds (2 minutes)
+    activeDuration: 1000 * 60 *2 // the session will be extended by this many ms each request (1 minute)
   }));
 
   const user = {
@@ -107,15 +107,32 @@ function ensureLogin(req, res, next) {
     }
   }
 
+var userForLogin = {
+    username:"q",
+    password:"q",
+    id:"1",
+    number:"1"
+}
+
 app.post("/logIn", (req, res) => {
-    
-   if((req.body.userNameLn).toString()=='a' ){
+    var flag=false;
+    for(var i=0;i<dataContent.length;i++){
+        
+
+        if((dataContent[i].username)==(req.body.userNameLn) && (dataContent[i].password)==(req.body.passwordLn)){
+            flag=true;
+            {userForLogin=dataContent[i];}
+            //console.log(userForLogin.number)
+        }
+    }
+   if(flag ){
     req.session.user={
         username:user.username,
         password:user.password
     };
-    res.render("layouts/main",{
-        data:dataContent
+    res.render("welcome",{
+        data: userForLogin,
+        layout: "main" 
     });
     
    }else{
@@ -123,17 +140,24 @@ app.post("/logIn", (req, res) => {
    }
 });
 
-app.get("/addPerson",ensureLogin,(req,res)=>{
+app.post("/addPerson",ensureLogin,(req,res)=>{
     dataFetcher.addPerson(req.body).then((data=>{
         console.log(req.body);
     }));
     res.redirect("/addPerson");
 });
 
+app.get("/addPerson",ensureLogin,(req,res)=>{
+    res.render("addPerson",{
+        data: userForLogin,
+        layout: "main"    
+    });
+    
+});
 //////////////From Submission //////////////
 app.get("/attendance",ensureLogin,(req,res)=>{
     res.render("attendanceView",{
-        data: dataContent,
+        data: userForLogin,
         layout: "main"    
     });
     
@@ -142,7 +166,7 @@ app.get("/attendance",ensureLogin,(req,res)=>{
 app.get("/signUp",(req,res)=>{
     res.render("signup",{
         layout:"main",
-        data: dataContent
+        data: userForLogin
         
     });
 });
@@ -151,23 +175,31 @@ app.get("/signUp",(req,res)=>{
 app.get("/monthlyReport",ensureLogin,(req,res)=>{
     res.render("monthlyReport",{
         layout:"main",
-        data: dataContent
+        data: userForLogin
     });
 });app.get("/attendanceReport",ensureLogin,(req,res)=>{
     res.render("attendanceReport",{
         layout:"main",
-        data: dataContent
+        data: userForLogin
     });
 });
 app.get("/news",ensureLogin,(req,res)=>{
     res.render("news",{
         layout:"main",
-        data: dataContent
+        data: userForLogin
     });
 });
 app.get("/logout",(req,res)=>{
     req.session.reset();
     res.render("viewTable");
+
+});
+
+app.get("/welcome",(req,res)=>{
+    res.render("welcome",{
+        layout:"main",
+        data: userForLogin
+    });
 
 });
 app.listen(HTTP_PORT, onHttpStart);

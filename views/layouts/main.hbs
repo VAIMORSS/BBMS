@@ -19,6 +19,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <style>
+
+        .people button:hover{
+            color: #54E783;  
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+
+
+
         span.glyphicon-user {
             font-size: 1.2em;
         }
@@ -134,22 +142,19 @@
             var present = new Set();
             var percent = 0;
             //var a= new set();
-            $("#1").mouseenter(function () {
-                $("#1").css("color", "red");
-            });
-            $("#2").mouseenter(function () {
-                $("#2").css("color", "red");
-            }); $("#5").mouseenter(function () {
-                $("#5").css("color", "red");
-            });
+            
+            
 
             $(".people button").click(function (event) {
+               
                 //alert(event.target.id);
                 //  myFunction(event.target.id);// resole the problem to make the butttton only for the button which are the present taker
                 if (present.has(event.target.id)) {
+                    $(this).css('color','red');                    
                     present.delete(event.target.id);
                     percent--;
                 } else {
+                    $(this).css('color','green');
                     present.add(event.target.id);
                     percent++;
                 }
@@ -244,7 +249,7 @@
                 </button>
             </div>
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">BBMS</a>
+                <div class="navbar-brand">{{#router "/welcome"}}BBMS{{/router}}</div>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
@@ -260,9 +265,11 @@
                     <li>{{#router "/logout"}}Log Out{{/router}}</li>
                 </ul>
             </div>
-</div>
+            </div>
         </div>
     </nav>
+
+    
 
     {{{body}}}
 

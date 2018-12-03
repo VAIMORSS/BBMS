@@ -1,7 +1,17 @@
-{
+[
+        {       "username":"a",
+                "password":"a",
+                "id":"123",
+                "number":"15"
+        },{
+                "username":"b",
+                "password":"b",
+                "id":"245",
+                "number":"30"
+                }
+]
  
-        "username":"vaibhav",
-        "id":"123",
-        "number":"15"
-}
+       
+       
+
 
