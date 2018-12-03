@@ -1,15 +1,122 @@
-<form action="/addPerson" method="POST" class="form-group" >
-    <div class="form-inline">
-        <label for="usr">First Name</label>
-        <input type="text" name="firstName" class="from-control" id="firstName">
-        <label>Last Name</label>
-        <input type="text" name="lastName" class="from-control" id="lastName">
+<div class="row">
+    <div class="col-md-12">
+        <div class="container">
+            <h1 class="display-3">Add User</h1>
+        </div>
+        <hr />
+        <form action="/addPerson" method="POST" class="form-group" >
+            <fieldset>
+                <legend>Personal Information</legend>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="usr">First Name: </label>
+                            <input type="text" name="firstName" class="form-control" placeholder="Firstname" >
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" name="lastName" class="form-control" placeholder="Lastname" >
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="usr">Father Name: </label>
+                            <input type="text" name="fatherName" class="form-control" placeholder="Fathername" >
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Mother Name</label>
+                            <input type="text" name="motherName" class="form-control" placeholder="Mothername" >
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="usr">Date of birth</label>
+                            <input type="text" name="dob" class="form-control" placeholder="01/01/2001" >
+                        </div>
+                    </div>
+                </div>
+
+                <legend>school Information</legend>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="usr">School Name </label>
+                                <input type="text" name="school" class="form-control" placeholder="ex:'Ashadeep'" >
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="usr">STD</label>
+                                <input type="text" name="std" class="form-control" placeholder="ex:'1'" >
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Last Year Percentages</label>
+                                <input type="text" name="lstyrpercentage" class="form-control" placeholder="ex:'88'" >
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                <legend>Address</legend>
+                 <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="usr">Unit</label>
+                            <input type="text" name="unit" class="form-control" placeholder="Unit Number" >
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Society/Apartment</label>
+                            <input type="text" name="society" class="form-control" placeholder="Society name or Apartment name ex:'Swaminarayan Nagar'" >
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Area</label>
+                            <input type="text" name="area" class="form-control" placeholder="Area ex:'Nana Varachha'" >
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>city</label>
+                            <input type="text" name="city" class="form-control" placeholder="Area ex:'Nana Varachha'" >
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>state</label>
+                            <select class="form-control" name="state" id="department">
+                                    <option value="">Choose</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <legend>Satsang</legend>
+                   
+            </fieldset>
+        </form>
+        
     </div>
-    <div class="form-inline">
-        <label>School :</label>
-        <input type="text" name="school" class="from-control" id="school">
-        <label>Std : </label>        
-        <input type="text" name="std" class="from-control" id="std">
-    </div>
-    <button   class="btn btn-lg btn-primary" type="submit">Submit</button> 
-</form>
+</div>
