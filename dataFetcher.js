@@ -25,7 +25,16 @@ var sequelize = require('sequelize');
             firstName: sequelize.STRING,
             lastName: sequelize.STRING,
             std: sequelize.INTEGER,
-            school: sequelize.STRING
+            school: sequelize.STRING,
+            firstyrpercentage:sequelize.NUMERIC,
+            unit:sequelize.STRING,
+            society:sequelize.STRING,
+            area:sequelize.STRING,
+            city:sequelize.STRING,
+            state:sequelize.STRING,
+            stsngyr:sequelize.NUMERIC,
+            mdstsg:sequelize.STRING,
+            dailypooja:sequelize.STRING
         }, {
             updatedAt: false
         });
@@ -41,8 +50,9 @@ var sequelize = require('sequelize');
         firstName: sequelize.STRING,
         personNumber: sequelize.NUMERIC,
         lastName: sequelize.STRING,
-        personTable: sequelize.STRING,
+        personTable: sequelize.STRING
         
+    
         }, {
         updatedAt: false,
         createdAt: false
@@ -148,7 +158,16 @@ module.exports.addPerson = (personData) => {
             firstName:personData.firstName,
             lastName:personData.lastName,
             std:personData.std,
-            school:personData.school
+            school:personData.school,
+            firstyrpercentage:personData.firstyrpercentage,
+            unit:personData.unit,
+            society:personData.society,
+            area:personData.area,
+            city:personData.city,
+            state:personData.state,
+            stsngyr:personData.stsngyr,
+            mdstsg:personData.mdstsg,
+            dailypooja:personData.dailypooja
 
         }).catch((err)=>{
             reject(err);

@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const Handlebars = require("handlebars");
 const HTTP_PORT = process.env.PORT || 8080;
-const fs = require("fs");4  
+const fs = require("fs");
 const dataFetcher = require("./dataFetcher.js");
 const clientSession = require("client-sessions");
 
@@ -181,18 +181,28 @@ var add = {
     firstName:'a',
     lastName:'a',
     school:'a',
-    std:'1'
+    std:'1',
+    firstyrpercentage:'1',
+    unit:'a',
+    society:'a',
+    area:'a',
+    city:'t',
+    state:'a',
+    stsngyr:'1',
+    mdstsg:'N',
+    dailypooja:'Y'
+
 }
 
 app.post("/addPerson",ensureLogin, (req, res) => {
-   // dataFetcher.addPerson(req.body).then((data => {
+   dataFetcher.addPerson(req.body).then((data => {
         console.log(req.body);
-        {add:req.body;}
-        console.log(add.firstName);
-    //}));
+        {add=req.body;}
+        console.log(add.city);
+   
     res.redirect("/addPerson");
+}));
 });
-
 
 /********
  * User data registering, updating : DONE
