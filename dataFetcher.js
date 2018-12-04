@@ -63,7 +63,8 @@ module.exports.authenticate=(username,Password)=>{
                     userName:username,
                     password:Password
                 },
-                raw:true
+                raw:true,
+                JSON:true
             }))
         });
     });

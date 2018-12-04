@@ -74,12 +74,12 @@ Handlebars.registerHelper('repeter', function (contex, option) {
 
 var i = 0; //try to make this part in the client side server
 Handlebars.registerHelper('repeter1', function (option) {
-    console.log("Helper called...");
-    if (i >= dataContent.number) {
+   // console.log("Helper called...");
+    if (i >= userLogIn[0].number) {
         i = 0;
     }
     i++;
-    console.log(i);
+   
     return i;
 });
 
@@ -105,8 +105,7 @@ app.use(function (req, res, next) {
 
 app.set("view engine", ".hbs");
 
-var data = fs.readFileSync("Json/data.json");
-var dataContent = JSON.parse(data);
+
 
 app.get("/", (req, res) => {
     res.render("viewTable");
@@ -145,18 +144,17 @@ app.post("/logIn", (req, res) => {
 dataFetcher.authenticate(req.body.userNameLn,req.body.passwordLn).then((data)=>{
     
         if(data!=""){
-            {userLogIn:data.JSON;}
+            {userLogIn=data;}
             req.session.user={
                 username:user.username,
                 password:user.password
             };
-
-            console.log(data);
-            console.log(userLogIn);
-
-            
-            
-            res.render("layouts/main");        
+           
+           // console.log(userLogIn[0].firstName);
+            res.render("welcome",{
+                data:userLogIn[0],
+                layout:"main"
+            });        
         }else{
             res.redirect("/");
         }
@@ -164,13 +162,8 @@ dataFetcher.authenticate(req.body.userNameLn,req.body.passwordLn).then((data)=>{
         // var user= JSON.stringify(data);
         // user= JSON.parse(user);
         // console.log(user.id);
-    });
-   
-
-    
-   
-    
-    });
+    });    
+});
         
 
 
@@ -214,7 +207,7 @@ app.post("/addPerson",ensureLogin, (req, res) => {
 //////////////From Submission //////////////
 app.get("/attendance",ensureLogin, (req, res) => {
     res.render("attendanceView", {
-        data: dataContent,
+        data: userLogIn[0],
         layout: "main"
     });
 
@@ -223,32 +216,32 @@ app.get("/attendance",ensureLogin, (req, res) => {
 app.get("/signUp", (req, res) => {
     res.render("signup", {
         layout: "main",
-        data: dataContent
+        data: userLogIn[0]
     });
 });
 app.get("/addPerson",ensureLogin, (req, res) => {
     res.render("addPerson", {
         layout: "main",
-        data: dataContent
+        data: userLogIn[0]
     });
 });
 
 app.get("/monthlyReport",ensureLogin, (req, res) => {
     res.render("monthlyReport", {
         layout: "main",
-        data: dataContent
+        data: userLogIn[0]
     });
 });
 app.get("/attendanceReport",ensureLogin, (req, res) => {
     res.render("attendanceReport", {
         layout: "main",
-        data: dataContent
+        data: userLogIn[0]
     });
 });
 app.get("/news",ensureLogin, (req, res) => {
     res.render("news", {
         layout: "main",
-        data: dataContent
+        data: userLogIn[0]
     });
 });
 app.get("/logout", (req, res) => {
