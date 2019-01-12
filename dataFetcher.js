@@ -16,6 +16,8 @@ var sequelize = require('sequelize');
         console.log('Unable to connect to the database:', err);
     });
 
+    
+
     const Person = Sequelize.define('Person', {
         PersonNum: {
             type: sequelize.INTEGER,
@@ -39,6 +41,21 @@ var sequelize = require('sequelize');
             updatedAt: false
         });
 
+    const news = Sequelize.define('news', {
+            id: {
+                type: sequelize.INTEGER,
+                primaryKey: true,
+                autoIncrement: true
+            },
+                head: sequelize.STRING,
+                main: sequelize.STRING,
+                footer: sequelize.STRING,
+                date: sequelize.INTEGER
+            }, {
+                updatedAt: false
+            });
+    
+
     const LogInTbl = Sequelize.define('LogInTbl', {
         id: {
             type: sequelize.INTEGER,
@@ -51,8 +68,6 @@ var sequelize = require('sequelize');
         personNumber: sequelize.NUMERIC,
         lastName: sequelize.STRING,
         personTable: sequelize.STRING
-        
-    
         }, {
         updatedAt: false,
         createdAt: false
@@ -63,6 +78,20 @@ var departments = [];
 var totalPerson = 0;
 
 
+module.exports.dailyNews=(Date)=>{
+    return new Promise((resolve, reject) => {
+        
+        Sequelize.sync().then(()=>{
+            resolve(news.findAll({
+                where:{
+                   date:Date
+                },
+                raw:true,
+                JSON:true
+            }))
+        });
+    });
+}
 
 module.exports.authenticate=(username,Password)=>{
     return new Promise((resolve, reject) => {

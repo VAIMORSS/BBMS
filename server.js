@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const exphbs = require("express-handlebars");
-const equelize = require("sequelize");
 const bodyParser = require("body-parser");
 const path = require("path");
 const Handlebars = require("handlebars");
@@ -9,20 +8,42 @@ const HTTP_PORT = process.env.PORT || 8080;
 const fs = require("fs");
 const dataFetcher = require("./dataFetcher.js");
 const clientSession = require("client-sessions");
+const name='person';
+
+/****
+ * 
+ * Class variables 
+ * 
+ */
+
+var newsNumber=0;
+
+/****
+ * 
+ * Class variables 
+ * 
+ */
+
+
+
+
+
 
 function onHttpStart() {
     console.log("Express http server listening on: " + HTTP_PORT);
      
 }
 
+
+
 /***
  * Using client-session 
  */
 app.use(clientSession({
     cookieName: "session", // this is the object name that will be added to 'req'
-    secret: "bbmsbeta", // this should be a long un-guessable string.
-    duration: 15 * 60 * 1000, // duration of the session in milliseconds (2 minutes)
-    activeDuration: 1000 * 60 // the session will be extended by this many ms each request (1 minute)
+    secret: "bbmsbeta", 
+    duration: 15 * 60 * 1000, 
+    activeDuration: 1000 * 60 
   }));
 
   const user = {
@@ -56,7 +77,6 @@ app.engine(".hbs", exphbs({
 
 app.use(express.static('public'));
 
-
 /******
  * 
  * All the Handlebars and their helpers 
@@ -64,10 +84,9 @@ app.use(express.static('public'));
  * ************** */
 
 Handlebars.registerHelper('repeter', function (contex, option) {
-    console.log("Helper called...");
     var s = "";
     for (var i = 0; i < contex; i++) {
-        s += '<strong>' + option.fn(this) + '</strong>';
+        s +=  option.fn(this) ;
     }
     return s;
 });
@@ -81,6 +100,24 @@ Handlebars.registerHelper('repeter1', function (option) {
     i++;
    
     return i;
+});
+
+Handlebars.registerHelper('cardMaker',function(contex,option){
+     var cards=" ";
+    
+    console.log("CardMaker Helper called...");
+    console.log(contex);
+    console.log(Object.keys(contex).length);
+    for(var i=0;i<Object.keys(contex).length;i++){
+        console.log(contex[i].id);
+        cards+="<div class=\"panel panel-default bootcards-media\">"+
+               "<div class=\"panel-heading\">"+contex[i].head+"</div>"+
+               "<div class=\"panel-body\">"+contex[i].main+"</div>"+
+               "<div class=\"panel-body\">"+contex[i].footer+"</div>"+
+               "</div>";
+    }
+    //cards+="</div>";
+    return cards;
 });
 
 //helper to direct the request at the different part of the application
@@ -140,7 +177,10 @@ var userLogIn={
 }
 
 app.post("/logIn", (req, res) => {
+  
     
+//trying to open the table which is connected to the user
+
 dataFetcher.authenticate(req.body.userNameLn,req.body.passwordLn).then((data)=>{
     
         if(data!=""){
@@ -150,11 +190,12 @@ dataFetcher.authenticate(req.body.userNameLn,req.body.passwordLn).then((data)=>{
                 password:user.password
             };
            
-           // console.log(userLogIn[0].firstName);
             res.render("welcome",{
                 data:userLogIn[0],
                 layout:"main"
-            });        
+            });  
+            
+            
         }else{
             res.redirect("/");
         }
@@ -191,7 +232,6 @@ var add = {
     stsngyr:'1',
     mdstsg:'N',
     dailypooja:'Y'
-
 }
 
 app.post("/addPerson",ensureLogin, (req, res) => {
@@ -207,12 +247,6 @@ app.post("/addPerson",ensureLogin, (req, res) => {
 /********
  * User data registering, updating : DONE
  */
-
-
-
-
-
-
 
 //////////////From Submission //////////////
 app.get("/attendance",ensureLogin, (req, res) => {
@@ -248,12 +282,22 @@ app.get("/attendanceReport",ensureLogin, (req, res) => {
         data: userLogIn[0]
     });
 });
+
+
+
+
 app.get("/news",ensureLogin, (req, res) => {
-    res.render("news", {
-        layout: "main",
-        data: userLogIn[0]
-    });
+    dataFetcher.dailyNews(123).then(data=>{
+        this.newsNumber=Object.keys(data).length;
+        res.render("news", {
+            layout: "main",
+            data: data
+        });
+    })
+    
 });
+
+
 app.get("/logout", (req, res) => {
     req.session.reset();
     res.render("viewTable");
@@ -261,12 +305,3 @@ app.get("/logout", (req, res) => {
 app.listen(HTTP_PORT, onHttpStart);
 
 
-
-
-/****TODO
- * 
- * 
- * Use session and cookie
- * 
- * 
- */
