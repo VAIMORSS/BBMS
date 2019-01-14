@@ -103,21 +103,37 @@ Handlebars.registerHelper('repeter1', function (option) {
 });
 
 Handlebars.registerHelper('cardMaker',function(contex,option){
-     var cards=" ";
-    
+    var cards="<table> ";
+    var flag=false;
+    var columnCounter=0;
+
     console.log("CardMaker Helper called...");
-    console.log(contex);
-    console.log(Object.keys(contex).length);
+    
     for(var i=0;i<Object.keys(contex).length;i++){
-        console.log(contex[i].id);
-        cards+="<div class=\"panel panel-default bootcards-media\">"+
+        
+        
+        columnCounter++;// increasing the counter if the column is increased so that after every three columns we can make the new row,
+
+        if(columnCounter%3==0){
+            flag=true;
+            cards+="<tr>";
+        }
+
+        cards+="<td>" + 
+               "<div class=\"panel panel-default bootcards-media\">"+
                "<div class=\"panel-heading\">"+contex[i].head+"</div>"+
                "<div class=\"panel-body\">"+contex[i].main+"</div>"+
                "<div class=\"panel-body\">"+contex[i].footer+"</div>"+
-               "</div>";
+               "</div> "+ 
+               " </td>";
+
+        if(flag){
+            flag=false;
+            cards+="</tr>";
+        }
     }
     //cards+="</div>";
-    return cards;
+    return cards+ "</table>";
 });
 
 //helper to direct the request at the different part of the application
