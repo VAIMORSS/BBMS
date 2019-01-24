@@ -1,0 +1,13 @@
+1 . sign up and making a perticular user with his or her perticualr day of the attendance
+    options:
+        weekly
+        monthly
+        daily
+        excluding holidays
+
+
+
+
+TODO: userlog in is working with no entry of the duplicate username 
+now need to fix the error message in case of the duplicate username 
+= work on the adding the student and make student cards with name and roll number under the card

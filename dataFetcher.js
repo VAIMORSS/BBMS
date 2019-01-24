@@ -41,6 +41,9 @@ var sequelize = require('sequelize');
             updatedAt: false
         });
 
+
+    
+
     const news = Sequelize.define('news', {
             id: {
                 type: sequelize.INTEGER,
@@ -56,22 +59,38 @@ var sequelize = require('sequelize');
             });
     
 
-    const LogInTbl = Sequelize.define('LogInTbl', {
-        id: {
-            type: sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        userName: sequelize.STRING,
-        password: sequelize.STRING,
-        firstName: sequelize.STRING,
-        personNumber: sequelize.NUMERIC,
-        lastName: sequelize.STRING,
-        personTable: sequelize.STRING
-        }, {
-        updatedAt: false,
-        createdAt: false
-        });
+        const LogInTbl = Sequelize.define('LogInTbl', {
+            id: {
+                type: sequelize.INTEGER,
+                primaryKey: true,
+                autoIncrement: true
+            },
+            userName: sequelize.STRING,
+            password: sequelize.STRING,
+            firstName: sequelize.STRING,
+            lastName: sequelize.STRING,
+            day: sequelize.STRING
+            }, {
+            updatedAt: false,
+            createdAt: false
+            });
+
+    // const LogInTbl = Sequelize.define('LogInTbl', {
+    //     id: {
+    //         type: sequelize.INTEGER,
+    //         primaryKey: true,
+    //         autoIncrement: true
+    //     },
+    //     userName: sequelize.STRING,
+    //     password: sequelize.STRING,
+    //     firstName: sequelize.STRING,
+    //     personNumber: sequelize.NUMERIC,
+    //     lastName: sequelize.STRING,
+    //     personTable: sequelize.STRING
+    //     }, {
+    //     updatedAt: false,
+    //     createdAt: false
+    //     });
 
 var person = [];
 var departments = [];
@@ -93,6 +112,32 @@ module.exports.dailyNews=(Date)=>{
     });
 }
 
+module.exports.addUser=(usrInfo)=>{
+    return new Promise((resolve,reject)=>{
+        Sequelize.sync().then(()=>{
+
+               LogInTbl.findAll({
+                   where:{
+                       userName:usrInfo.userName
+                   }
+               }).then((data)=>{
+                   console.log(data+"**************");
+                   if(data==''){
+                    resolve(LogInTbl.create({
+                        userName: usrInfo.userName,
+                        password: usrInfo.password,
+                        firstName: usrInfo.firstName,
+                        lastName: usrInfo.lastName,
+                        day:usrInfo.day
+                    }));
+                   }
+               })
+                 
+               
+                
+        })
+    })
+}
 module.exports.authenticate=(username,Password)=>{
     return new Promise((resolve, reject) => {
         

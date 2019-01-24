@@ -62,7 +62,6 @@ function ensureLogin(req, res, next) {
   }
 
 
-
 /***
  * Done client-session 
  */
@@ -103,37 +102,24 @@ Handlebars.registerHelper('repeter1', function (option) {
 });
 
 Handlebars.registerHelper('cardMaker',function(contex,option){
-    var cards="<table> ";
-    var flag=false;
-    var columnCounter=0;
+    var cards=" ";
+    // var flag=false;
+    // var columnCounter=0;
 
     console.log("CardMaker Helper called...");
     
     for(var i=0;i<Object.keys(contex).length;i++){
-        
-        
-        columnCounter++;// increasing the counter if the column is increased so that after every three columns we can make the new row,
 
-        if(columnCounter%3==0){
-            flag=true;
-            cards+="<tr>";
-        }
-
-        cards+="<td>" + 
-               "<div class=\"panel panel-default bootcards-media\">"+
-               "<div class=\"panel-heading\">"+contex[i].head+"</div>"+
-               "<div class=\"panel-body\">"+contex[i].main+"</div>"+
-               "<div class=\"panel-body\">"+contex[i].footer+"</div>"+
+        cards+="<div class=\"panel panel-default bootcards-media card\">"+
+               "<div class=\"panel-heading card-head\">"+contex[i].head+"</div>"+
+               "<div class=\"panel-body card-body\">"+contex[i].main+"</div>"+
+               "<div class=\"panel-footer card-footer\">"+contex[i].footer+"</div>"+
                "</div> "+ 
-               " </td>";
+               "</td> ";
 
-        if(flag){
-            flag=false;
-            cards+="</tr>";
-        }
     }
-    //cards+="</div>";
-    return cards+ "</table>";
+
+    return cards;
 });
 
 //helper to direct the request at the different part of the application
@@ -164,7 +150,20 @@ app.get("/", (req, res) => {
     res.render("viewTable");
 });
 
+app.post("/signUp", (req, res) => {
+    res.render("signup");
+});
 
+app.post("/asignup", (req, res) => {
+    console.log("sign up form filled up")
+    console.log(req.body);
+    dataFetcher.addUser(req.body).then(
+        (data)=>{
+            console.log(data);
+        }
+    );
+    
+});
 /******
  * ALL from submissions 
  *

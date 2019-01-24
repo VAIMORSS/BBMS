@@ -25,6 +25,7 @@
             absent.style.width = 100 - per + '%';
             absent.textContent = 100 - per.toFixed(0) + ' % are Absent';
         });
+
         $("#presentList").click(function () { // to see all present 
             var ppl = "";
             console.log(ppl + "1");
@@ -41,6 +42,9 @@
             console.log(ppl);
             $("#presentpeople").text(ppl);
         });
+
+        
+
         $("#send").click(function () {
             var jsonObjString = JSON.stringify(present);
             var obj = JSON.parse(jsonObjString);
@@ -77,6 +81,9 @@
         
 </script>
 <div class="container">
+    <div id="date" class="date">
+
+    </div>
     <div id="people" class="people">
         <tr class="row">
             {{#repeter data.personNumber }}
