@@ -60,19 +60,14 @@ var sequelize = require('sequelize');
     
 
         const LogInTbl = Sequelize.define('LogInTbl', {
-            id: {
-                type: sequelize.INTEGER,
-                primaryKey: true,
-                autoIncrement: true
-            },
-            userName: sequelize.STRING,
-            password: sequelize.STRING,
             firstName: sequelize.STRING,
             lastName: sequelize.STRING,
+            userName:{ 
+                type:sequelize.STRING,
+                unique:true
+            },
+            password: sequelize.STRING,
             day: sequelize.STRING
-            }, {
-            updatedAt: false,
-            createdAt: false
             });
 
     // const LogInTbl = Sequelize.define('LogInTbl', {
@@ -121,7 +116,6 @@ module.exports.addUser=(usrInfo)=>{
                        userName:usrInfo.userName
                    }
                }).then((data)=>{
-                   console.log(data+"**************");
                    if(data==''){
                     resolve(LogInTbl.create({
                         userName: usrInfo.userName,
@@ -130,11 +124,11 @@ module.exports.addUser=(usrInfo)=>{
                         lastName: usrInfo.lastName,
                         day:usrInfo.day
                     }));
+                   }else{
+                       resolve("1");
                    }
-               })
-                 
-               
-                
+               }).catch
+             
         })
     })
 }
@@ -153,6 +147,7 @@ module.exports.authenticate=(username,Password)=>{
         });
     });
 }
+
 module.exports.initialize = () => {
     return new Promise((resolve, reject) => {
             Sequelize.sync().then((Person) => {

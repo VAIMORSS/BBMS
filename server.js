@@ -154,14 +154,42 @@ app.post("/signUp", (req, res) => {
     res.render("signup");
 });
 
+const Error = {"error":""};
+
 app.post("/asignup", (req, res) => {
     console.log("sign up form filled up")
     console.log(req.body);
+    let newUser;
     dataFetcher.addUser(req.body).then(
         (data)=>{
-            console.log(data);
+            if(data==="1"){
+                Error.error=" We are very sorry the username is taken please try other one ";
+                res.render("signup",{
+                    data:Error
+                });
+            }else{
+                newUser=data;
+                dataFetcher.authenticate(data.userName,data.password).then((data)=>{
+    
+                    if(data!=""){
+                        {userLogIn=data;}
+                        req.session.user={
+                            username:user.username,
+                            password:user.password
+                        };
+                       
+                        res.render("welcome",{
+                            data:userLogIn[0],
+                            layout:"main"
+                        });  
+                        
+                        
+                    }});
+            }
         }
-    );
+    ).then(()=>{
+        
+    });
     
 });
 /******
