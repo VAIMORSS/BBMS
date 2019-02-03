@@ -1,0 +1,11 @@
+findAll() alone is not working >> TypeError: Cannot read property 'findAll' of undefined
+
+work on the another part
+
+
+look in the authenticate function call but the probelm is the default values are there // is is not the problem just while testing it is creating the problem 
+
+//work on the how to fetch data returned from 
+ans :  data is okay just need to directly send to the rendering
+
+//ask question whether the server runs only one code or multiple together

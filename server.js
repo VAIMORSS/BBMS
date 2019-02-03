@@ -10,6 +10,7 @@ const dataFetcher = require("./dataFetcher.js");
 const clientSession = require("client-sessions");
 const name='person';
 
+
 /****
  * 
  * Class variables 
@@ -240,7 +241,7 @@ dataFetcher.authenticate(req.body.userNameLn,req.body.passwordLn).then((data)=>{
         }
     }).then(()=>{
         dataFetcher.userDefiner(userLogIn.userName);
-    });    
+    });
 });
         
 
@@ -284,10 +285,17 @@ app.post("/addPerson",ensureLogin, (req, res) => {
 
 //////////////From Submission //////////////
 app.get("/attendance",ensureLogin, (req, res) => {
-    res.render("attendanceView", {
-        data: userLogIn[0],
-        layout: "main"
+    dataFetcher.userDefiner(userLogIn.userName);
+    dataFetcher.getPersonAll().then((data)=>{
+        // need to implement something that can fetch the data which are coming from the database
+        console.log(data);
+        res.send(data);
     });
+
+    // res.render("attendanceView", {
+    //     data: userLogIn[0],
+    //     layout: "main"
+    // });
 
 });
 
@@ -344,3 +352,11 @@ app.listen(HTTP_PORT, onHttpStart);
 module.exports.userInfo=()=>{
     return userLogIn;
 }
+
+
+
+// change this in the BBMS-react
+
+
+
+var allPerson;

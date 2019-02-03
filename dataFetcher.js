@@ -151,7 +151,6 @@ module.exports.updatePerson = (personData) => {
             lastName:personData.lastName,
             std:personData.std,
             school:personData.school
-
         },{where :{
             PersonNum:personData.PersonNum
         }}).catch((err)=>{
@@ -190,11 +189,9 @@ module.exports.addPerson = (personData) => {
             stsngyr:personData.stsngyr,
             mdstsg:personData.mdstsg,
             dailypooja:personData.dailypooja
-
         }).catch((err)=>{
             reject(err);
-        }));
-        
+        })); 
        }).catch((err)=>{
            reject(err);
        });  
@@ -233,14 +230,12 @@ module.exports.userDefiner=(userInfo)=>{
 
 //attendace view
 
-module.exports.getPersonAll = (num) => {
-    var allPerson = [];
+module.exports.getPersonAll = () => {
     return new Promise((resolve, reject) => {
         Sequelize.sync().then(()=>{
             resolve(Person.findAll());
         }).catch((err)=>{
             reject(err);
         });
-        resolve(allPerson);
     });
 }
