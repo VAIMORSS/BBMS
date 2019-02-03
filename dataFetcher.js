@@ -1,5 +1,7 @@
 var fs = require('fs');
 var sequelize = require('sequelize');
+const server = require('./server.js');
+
 
     var Sequelize = new sequelize('d558e7l0prgtpo', 'bhttoyjbvistmo', '24f9a4f901a9929509d983b24197af50a9240d2ceb62eb6eb91aa6beb656c425', {
         host: 'ec2-23-21-147-71.compute-1.amazonaws.com',
@@ -17,31 +19,9 @@ var sequelize = require('sequelize');
     });
 
     
+    var Person;
 
-    const Person = Sequelize.define('Person', {
-        PersonNum: {
-            type: sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-            firstName: sequelize.STRING,
-            lastName: sequelize.STRING,
-            std: sequelize.INTEGER,
-            school: sequelize.STRING,
-            firstyrpercentage:sequelize.NUMERIC,
-            unit:sequelize.STRING,
-            society:sequelize.STRING,
-            area:sequelize.STRING,
-            city:sequelize.STRING,
-            state:sequelize.STRING,
-            stsngyr:sequelize.NUMERIC,
-            mdstsg:sequelize.STRING,
-            dailypooja:sequelize.STRING
-        }, {
-            updatedAt: false
-        });
-
-
+    
     
 
     const news = Sequelize.define('news', {
@@ -70,27 +50,7 @@ var sequelize = require('sequelize');
             day: sequelize.STRING
             });
 
-    // const LogInTbl = Sequelize.define('LogInTbl', {
-    //     id: {
-    //         type: sequelize.INTEGER,
-    //         primaryKey: true,
-    //         autoIncrement: true
-    //     },
-    //     userName: sequelize.STRING,
-    //     password: sequelize.STRING,
-    //     firstName: sequelize.STRING,
-    //     personNumber: sequelize.NUMERIC,
-    //     lastName: sequelize.STRING,
-    //     personTable: sequelize.STRING
-    //     }, {
-    //     updatedAt: false,
-    //     createdAt: false
-    //     });
-
-var person = [];
-var departments = [];
-var totalPerson = 0;
-
+   
 
 module.exports.dailyNews=(Date)=>{
     return new Promise((resolve, reject) => {
@@ -106,6 +66,7 @@ module.exports.dailyNews=(Date)=>{
         });
     });
 }
+
 
 module.exports.addUser=(usrInfo)=>{
     return new Promise((resolve,reject)=>{
@@ -132,6 +93,8 @@ module.exports.addUser=(usrInfo)=>{
         })
     })
 }
+
+
 module.exports.authenticate=(username,Password)=>{
     return new Promise((resolve, reject) => {
         
@@ -171,17 +134,7 @@ module.exports.getPersonByNum = (num) => {
     });
 }
 
-module.exports.getPersonAll = (num) => {
-    var allPerson = [];
-    return new Promise((resolve, reject) => {
-        Sequelize.sync().then(()=>{
-            resolve(Person.findAll());
-        }).catch((err)=>{
-            reject(err);
-        });
-        resolve(allPerson);
-    });
-}
+
 
 module.exports.updatePerson = (personData) => {
     return new Promise((resolve, reject) => {
@@ -246,4 +199,48 @@ module.exports.addPerson = (personData) => {
            reject(err);
        });  
       });
+}
+
+
+// userDefiner after the login is done
+var currentUserName;
+module.exports.userDefiner=(userInfo)=>{
+    currentUserName=userInfo;
+    Person = Sequelize.define(userInfo, {
+       PersonNum: {
+           type: sequelize.INTEGER,
+           primaryKey: true,
+           autoIncrement: true
+       },
+           firstName: sequelize.STRING,
+           lastName: sequelize.STRING,
+           std: sequelize.INTEGER,
+           school: sequelize.STRING,
+           firstyrpercentage:sequelize.NUMERIC,
+           unit:sequelize.STRING,
+           society:sequelize.STRING,
+           area:sequelize.STRING,
+           city:sequelize.STRING,
+           state:sequelize.STRING,
+           stsngyr:sequelize.NUMERIC,
+           mdstsg:sequelize.STRING,
+           dailypooja:sequelize.STRING
+       }, {
+           updatedAt: false
+       });
+
+};
+
+//attendace view
+
+module.exports.getPersonAll = (num) => {
+    var allPerson = [];
+    return new Promise((resolve, reject) => {
+        Sequelize.sync().then(()=>{
+            resolve(Person.findAll());
+        }).catch((err)=>{
+            reject(err);
+        });
+        resolve(allPerson);
+    });
 }

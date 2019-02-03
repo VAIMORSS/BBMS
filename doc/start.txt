@@ -8,6 +8,5 @@
 
 
 
-TODO: userlog in is working with no entry of the duplicate username 
-now need to fix the error message in case of the duplicate username 
+TODO: 
 = work on the adding the student and make student cards with name and roll number under the card

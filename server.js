@@ -16,7 +16,6 @@ const name='person';
  * 
  */
 
-var newsNumber=0;
 
 /****
  * 
@@ -83,6 +82,9 @@ app.use(express.static('public'));
  * ************** */
 
 Handlebars.registerHelper('repeter', function (contex, option) {
+    var allPersons = dataFetcher.getPersonAll();
+
+   console.log(allPersons, " here are the all person");
     var s = "";
     for (var i = 0; i < contex; i++) {
         s +=  option.fn(this) ;
@@ -92,8 +94,7 @@ Handlebars.registerHelper('repeter', function (contex, option) {
 
 var i = 0; //try to make this part in the client side server
 Handlebars.registerHelper('repeter1', function (option) {
-   // console.log("Helper called...");
-    if (i >= userLogIn[0].number) {
+   if (i >= userLogIn[0].number) {
         i = 0;
     }
     i++;
@@ -106,7 +107,6 @@ Handlebars.registerHelper('cardMaker',function(contex,option){
     // var flag=false;
     // var columnCounter=0;
 
-    console.log("CardMaker Helper called...");
     
     for(var i=0;i<Object.keys(contex).length;i++){
 
@@ -127,6 +127,8 @@ Handlebars.registerHelper('cardMaker',function(contex,option){
 Handlebars.registerHelper('router', function (url, options) {
     return '<li ' + ((app.locals.activeRoute == url) ? 'class="active"' : '') + '> <a href="' + url + '">' + options.fn(this) + '</a></li>';
 });
+
+
 
 /******
  * 
@@ -157,9 +159,7 @@ app.post("/signUp", (req, res) => {
 const Error = {"error":""};
 
 app.post("/asignup", (req, res) => {
-    console.log("sign up form filled up")
-    console.log(req.body);
-    let newUser;
+    
     dataFetcher.addUser(req.body).then(
         (data)=>{
             if(data==="1"){
@@ -168,9 +168,7 @@ app.post("/asignup", (req, res) => {
                     data:Error
                 });
             }else{
-                newUser=data;
                 dataFetcher.authenticate(data.userName,data.password).then((data)=>{
-    
                     if(data!=""){
                         {userLogIn=data;}
                         req.session.user={
@@ -182,14 +180,10 @@ app.post("/asignup", (req, res) => {
                             data:userLogIn[0],
                             layout:"main"
                         });  
-                        
-                        
                     }});
             }
         }
-    ).then(()=>{
-        
-    });
+    );
     
 });
 /******
@@ -200,7 +194,6 @@ app.post("/asignup", (req, res) => {
 app.post("/endpoint", (req, res) => {
     var json_data = JSON.parse(req.body.data);
     res.send("<p>lala</p>");
-    console.log(req.body);
 });
 
 
@@ -210,14 +203,16 @@ app.post("/endpoint", (req, res) => {
 
 var userLogIn={
     id:'1',
-    userName:'a',
-    passWord:'a',
     firstName:'a',
-    personNumber:'0',
-    lastname:'a',
-    personTable:'tbl'
-
+    lastName:'a',
+    userName:'a',
+    password:'a',
+    day:'a',
+    createdAt:'a',
+    updatedAt:'a'
 }
+
+
 
 app.post("/logIn", (req, res) => {
   
@@ -227,7 +222,8 @@ app.post("/logIn", (req, res) => {
 dataFetcher.authenticate(req.body.userNameLn,req.body.passwordLn).then((data)=>{
     
         if(data!=""){
-            {userLogIn=data;}
+            {userLogIn=data[0];}
+
             req.session.user={
                 username:user.username,
                 password:user.password
@@ -242,10 +238,8 @@ dataFetcher.authenticate(req.body.userNameLn,req.body.passwordLn).then((data)=>{
         }else{
             res.redirect("/");
         }
-       
-        // var user= JSON.stringify(data);
-        // user= JSON.parse(user);
-        // console.log(user.id);
+    }).then(()=>{
+        dataFetcher.userDefiner(userLogIn.userName);
     });    
 });
         
@@ -279,10 +273,7 @@ var add = {
 
 app.post("/addPerson",ensureLogin, (req, res) => {
    dataFetcher.addPerson(req.body).then((data => {
-        console.log(req.body);
         {add=req.body;}
-        console.log(add.city);
-   
     res.redirect("/addPerson");
 }));
 });
@@ -348,3 +339,8 @@ app.get("/logout", (req, res) => {
 app.listen(HTTP_PORT, onHttpStart);
 
 
+//making the data accesable  in the datafetcher  via export module
+
+module.exports.userInfo=()=>{
+    return userLogIn;
+}
