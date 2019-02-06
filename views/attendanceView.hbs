@@ -92,19 +92,6 @@
             <div id="presentAvatar">
 
             </div>
-{{!--             
-            <div class="card col-xs-12 col-sm-6 col-md-4 col-lg-2">
-               
-                    <div class="name">
-                        <h1>test</h1>
-                    </div>
-                    <div class="button">
-                        <button>btn</button>
-                    </div>
-
-                
-            </div> --}}
-
 
         </tr>
     </div>
@@ -129,21 +116,16 @@
 <script>
     var presentAvtar="";
         for(var i=0;i<{{#dataLength data}}{{/dataLength}};i++){
-             presentAvtar+="<div class=\"card col-xs-12 col-sm-6 col-md-4 col-lg-2\">"+
+             presentAvtar+="<div class=\"card col-xs-12 col-sm-4 col-md-3 col-lg-2\">"+
                     "<div class=\"button\">"+
                         "<button id=\""+i+"\" class=\"glyphicon         glyphicon-user btn btn-primary-outline icon\"></button></div>"+
                     "<div class=\"name\">"+
                         "<h4>"+"firstName"+" "+"LastName"+"</h4>"+
                     "</div>"+
-                    "</div>";
-        }       
+                "</div>";
+        }    
+     
         document.getElementById("presentAvatar").innerHTML=presentAvtar;
-
         
-          
-                    
-
-                
-
 
 </script>
