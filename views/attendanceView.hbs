@@ -1,6 +1,9 @@
 <script>
+        
         // make an object for each presentObject name an number if photo possible
         $(document).ready(function () {
+
+
             var present = new Set();
             var percent = 0;
             //var a= new set();
@@ -17,7 +20,7 @@
                     present.add(event.target.id);
                     percent++;
                 }
-            var per = percent / {{ data.personNumber }} * 100;
+            var per = percent / {{#dataLength data }}{{/dataLength}}* 100;
             var presented = document.getElementById("Present");
             presented.style.width = per + '%';
             presented.textContent = per.toFixed(0) + ' % are Present';
@@ -86,9 +89,23 @@
     </div>
     <div id="people" class="people">
         <tr class="row">
-            {{#repeter data.personNumber }}
-            <button id="{{#repeter1}}{{/repeter1}}" class="glyphicon glyphicon-user blue col-xs-12 col-sm-6 col-md-4 col-lg-2 btn btn-default icon"></button>
-            {{/repeter}}
+            <div id="presentAvatar">
+
+            </div>
+{{!--             
+            <div class="card col-xs-12 col-sm-6 col-md-4 col-lg-2">
+               
+                    <div class="name">
+                        <h1>test</h1>
+                    </div>
+                    <div class="button">
+                        <button>btn</button>
+                    </div>
+
+                
+            </div> --}}
+
+
         </tr>
     </div>
 
@@ -109,3 +126,24 @@
     <button class="btn btn-primary" id="send">Send</button>
 </div>
 
+<script>
+    var presentAvtar="";
+        for(var i=0;i<{{#dataLength data}}{{/dataLength}};i++){
+             presentAvtar+="<div class=\"card col-xs-12 col-sm-6 col-md-4 col-lg-2\">"+
+                    "<div class=\"button\">"+
+                        "<button id=\""+i+"\" class=\"glyphicon         glyphicon-user btn btn-primary-outline icon\"></button></div>"+
+                    "<div class=\"name\">"+
+                        "<h4>"+"firstName"+" "+"LastName"+"</h4>"+
+                    "</div>"+
+                    "</div>";
+        }       
+        document.getElementById("presentAvatar").innerHTML=presentAvtar;
+
+        
+          
+                    
+
+                
+
+
+</script>

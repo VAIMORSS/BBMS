@@ -45,7 +45,7 @@
             text-align: center;
         }
         .icon {
-            font-size: 100px;
+            font-size: 80px;
             width: 120px;
         }
         .sendRecive {
@@ -79,18 +79,23 @@
             animation: fadein 0.5s, fadeout 0.5s 2.5s;
         }
 
-        .card-footer, .card-body,.card-head{
-          
-        }
-        .card-head{
-           
-            
-        }
-        .card-body{
-           
-        }
-        .card-footer{
+        .card{
+            box-shadow:20px 16px 18px 0 rgba(85, 50, 50, 0.2); 
+            background-color: rgb(121, 144, 219);
+            border-radius: 20px;
+            transition: 0.3s;
+            padding: 20px;
+            display: inline-box;
+            margin: 2%;
 
+        }
+        .btn-primary-outline {
+            background-color: transparent;
+            border-color:transparent;
+            }
+
+        .card:hover{
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
         }
         
         @-webkit-keyframes fadein {

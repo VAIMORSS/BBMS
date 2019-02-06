@@ -230,7 +230,8 @@ module.exports.userDefiner=(userInfo)=>{
 
 //attendace view
 
-module.exports.getPersonAll = () => {
+module.exports.getPersonAll = (req) => {
+    this.userDefiner(req.session.user.username);
     return new Promise((resolve, reject) => {
         Sequelize.sync().then(()=>{
             resolve(Person.findAll());
