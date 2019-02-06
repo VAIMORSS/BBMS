@@ -31,7 +31,6 @@ function onHttpStart() {
 }
 
 
-
 /***
  * Using client-session
  */
@@ -87,6 +86,15 @@ Handlebars.registerHelper('repeter', function (contex, option) {
     return s;
 });
 
+Handlebars.registerHelper('userInfo', function (contex, option) {
+    var data=[];
+    for(var i=0;i<contex.length;i++){
+        data.push(contex[i]);
+    }
+    return data;
+});
+
+
 Handlebars.registerHelper('dataLength', function (contex, option) {
     return contex.length;
 });
@@ -111,7 +119,6 @@ Handlebars.registerHelper('cardMaker',function(contex,option){
                "</div> "+
                "</td> ";
     }
-
     return cards;
 });
 
