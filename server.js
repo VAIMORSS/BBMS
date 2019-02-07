@@ -383,6 +383,6 @@ var allPerson;
     dataFetcher.userDefiner(req.session.user.username);
     console.log("remove function from the server.js called");
     dataFetcher.removeUserByNum(req.params.usrNum).then((data)=>{
-        res.redirect("/userList");
+        res.redirect("/attendance");
     })
  });

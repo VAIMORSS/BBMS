@@ -20,58 +20,58 @@
                 present.add(event.target.id);
                 percent++;
             }
-            var per = percent / {{#dataLength data}} {{/dataLength}}* 100;
-    var presented = document.getElementById("Present");
-    presented.style.width = per + '%';
-    presented.textContent = per.toFixed(0) + ' % are Present';
-    var absent = document.getElementById("Absent");
-    absent.style.width = 100 - per + '%';
-    absent.textContent = 100 - per.toFixed(0) + ' % are Absent';
+var per = percent / {{#dataLength data}} {{/dataLength}}* 100;
+            var presented = document.getElementById("Present");
+            presented.style.width = per + '%';
+            presented.textContent = per.toFixed(0) + ' % are Present';
+            var absent = document.getElementById("Absent");
+            absent.style.width = 100 - per + '%';
+            absent.textContent = 100 - per.toFixed(0) + ' % are Absent';
         });
 
-    $("#presentList").click(function () { // to see all present 
-        var ppl = "";
-        console.log(ppl + "1");
-        /*
-          something is pushing the id of the button in side the set and to remove that this funntion delete that
-        */
-        if (present.has('presentList')) {
-            present.delete('presentList');// resolve this in an efficient way
-        }
-        present.forEach(pple => {
-            ppl += 'present ' + pple + '\n';
-        });
-        console.log("is this working???");
-        console.log(ppl);
-        $("#presentpeople").text(ppl);
-    });
-
-
-
-    $("#send").click(function () {
-        var jsonObjString = JSON.stringify(present);
-        var obj = JSON.parse(jsonObjString);
-        if (present.has('send')) {
-            present.delete('send');
-        }
-        var jsonObjString = JSON.stringify([...present]);
-        $.ajax({
-            dataType: 'text',
-            type: 'POST',
-            url: 'http://localhost:8080/endpoint',
-            data: {
-                data: jsonObjString
-            },
-            success: function (newList) {
-                myFunction("All is well");
-            },
-            error: function () {
-                alert('some thing went wrong');
+        $("#presentList").click(function () { // to see all present 
+            var ppl = "";
+            console.log(ppl + "1");
+            /*
+              something is pushing the id of the button in side the set and to remove that this funntion delete that
+            */
+            if (present.has('presentList')) {
+                present.delete('presentList');// resolve this in an efficient way
             }
+            present.forEach(pple => {
+                ppl += 'present ' + pple + '\n';
+            });
+            console.log("is this working???");
+            console.log(ppl);
+            $("#presentpeople").text(ppl);
         });
+
+
+
+        $("#send").click(function () {
+            var jsonObjString = JSON.stringify(present);
+            var obj = JSON.parse(jsonObjString);
+            if (present.has('send')) {
+                present.delete('send');
+            }
+            var jsonObjString = JSON.stringify([...present]);
+            $.ajax({
+                dataType: 'text',
+                type: 'POST',
+                url: 'http://localhost:8080/endpoint',
+                data: {
+                    data: jsonObjString
+                },
+                success: function (newList) {
+                    myFunction("All is well");
+                },
+                error: function () {
+                    alert('some thing went wrong');
+                }
+            });
+        });
+
     });
-        
-        });
     // function to show toast
     function myFunction(y) {
         var x = document.getElementById("snackbar");
@@ -83,45 +83,59 @@
     }
 
 </script>
-<div class="container">
-    <div id="date" class="date">
+        <div class="container">
+            <div id="date" class="date">
 
-    </div>
-
-    <div id="people" class="people">
-        <tr class="row">
-            {{#each data}}
-            <div  class="card card-background col-xs-12 col-sm-4 col-md-3 col-lg-2">
-                <div  class="button">
-                    <button id="{{PersonNum}}" class="glyphicon glyphicon-user btn btn-primary-outline icon">
-                    </button>
-                </div>
-                <div class="nameInAttendance">
-                    <h4> {{firstName}}</h4>
-                    <h5>{{lastName}}</h5>
-                </div>
             </div>
-            {{/each}}
-            {{!-- <div id="presentAvatar">
 
-            </div> --}}
-        </tr>
-    </div>
+            <div>
+                <tr class="row">
+                    {{#each data}}
+                    <div class="card card-background col-xs-12 col-sm-4 col-md-3 col-lg-2">
+                        <div class="drop-down-button ">
+                            <div class="dropdown user-list-dropdown-btn">
+                                <button class="btn btn-primary-outline  glyphicon glyphicon-cog" type="button" data-toggle="dropdown">
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="glyphicon glyphicon-edit" href="/userList/edit/{{PersonNum}}"> Edit</a></li>
+                                    <li><a class=" glyphicon glyphicon-trash" href="/userList/remove/{{PersonNum}}"> remove</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
 
-    <div id="snackbar">Some text some message..</div>
-    <p id="presentPeople"></p>
-</div>
-<div class="progress">
-    <div id="Present" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width:50%">
-        Present
+                        <div class="people">
+                            <div class="button">
+                                <button id="{{PersonNum}}" class="glyphicon glyphicon-user btn btn-primary-outline icon">
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="nameInAttendance">
+                            <h4> {{firstName}}</h4>
+                            <h5>{{lastName}}</h5>
+                        </div>
+
+                    </div>
+                    {{/each}}
+                    
+                </tr>
+            </div>
+
+            <div id="snackbar">Some text some message..</div>
+            <p id="presentPeople"></p>
+        </div>
+    <div class="progress">
+        <div id="Present" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+            style="width:50%">
+            Present
+        </div>
+        <div id="Absent" class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width:50%">
+            Absent
+        </div>
+        {{!-- add one bar here for late also --}}
     </div>
-    <div id="Absent" class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width:50%">
-        Absent
-    </div>
-    {{!-- add one bar here for late also --}}
-</div>
 <div class="btn-group-lg sendRecive">
     <button class="btn btn-primary" id="presentList">Click</button>
     <button class="btn btn-primary" id="send">Send</button>
 </div>
-

@@ -41,8 +41,12 @@
             border-width: 0ch;
         }
         .people {
-            background-color: #fff;
+            background-color:transparent;
             text-align: center;
+        }
+        .drop-down-button{
+            background-color: transparent;
+            text-align: end;
         }
         .icon {
             font-size: 200%;
@@ -181,7 +185,7 @@
                 <ul class="nav navbar-nav">
                     {{#router "/news"}}News{{/router}}
                     {{#router "/attendance"}}attendance{{/router}}
-                    {{#router "/userList"}}Add Person{{/router}}
+                    {{#router "/addPerson"}}Add Person{{/router}}
                     
                 </ul>
                 
