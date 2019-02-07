@@ -238,7 +238,7 @@ dataFetcher.authenticate(req.body.userNameLn,req.body.passwordLn).then((data)=>{
             res.redirect("/");
         }
     }).then(()=>{
-        dataFetcher.userDefiner(userLogIn.userName);
+        dataFetcher.userDefiner(req.session.user.username);
     });
 });
 
@@ -283,7 +283,7 @@ app.post("/addPerson",ensureLogin, (req, res) => {
 
 //////////////From Submission //////////////
 app.get("/attendance",ensureLogin, (req, res) => {
-    dataFetcher.userDefiner(userLogIn.userName);
+    dataFetcher.userDefiner(req.session.user.username);
     dataFetcher.getPersonAll(req).then((data)=>{
         var p = JSON.stringify(data);
         p = JSON.parse(p);
@@ -293,16 +293,28 @@ app.get("/attendance",ensureLogin, (req, res) => {
         });
     });
 
-
-
 });
 
 app.get("/signUp", (req, res) => {
+
     res.render("signup", {
         layout: "main",
         data: userLogIn[0]
     });
 });
+
+app.get("/userList",ensureLogin, (req, res) => {
+    dataFetcher.userDefiner(req.session.user.username);
+    dataFetcher.getPersonAll(req).then((data)=>{
+        res.render("userList", {
+            layout: "main",
+            data:data
+        });
+    });
+    
+});
+
+
 app.get("/addPerson",ensureLogin, (req, res) => {
     res.render("addPerson", {
         layout: "main",
@@ -358,3 +370,19 @@ module.exports.userInfo=()=>{
 
 
 var allPerson;
+
+/****
+ * user list edit and delete
+ */
+
+ app.get("/userList/edit/:usrNum",(req,res)=>{
+
+ });
+
+ app.get("/userList/remove/:usrNum",(req,res)=>{
+    dataFetcher.userDefiner(req.session.user.username);
+    console.log("remove function from the server.js called");
+    dataFetcher.removeUserByNum(req.params.usrNum).then((data)=>{
+        res.redirect("/userList");
+    })
+ });

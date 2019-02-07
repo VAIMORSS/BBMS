@@ -240,3 +240,28 @@ module.exports.getPersonAll = (req) => {
         });
     });
 }
+
+
+/****
+ * userList edit and remove methods
+ */
+
+
+ module.exports.editUserByNum = (num)=>{
+
+ }
+
+ module.exports.removeUserByNum = (num)=>{
+     console.log("remove from the dataFetcher called",num);
+    return new Promise((resolve,reject)=>{
+        Sequelize.sync().then(()=>{
+            resolve(Person.destroy({
+                where:{
+                    PersonNum:num
+                }
+            }))
+        }).catch((err)=>{
+            reject();
+        })
+    })   
+ }

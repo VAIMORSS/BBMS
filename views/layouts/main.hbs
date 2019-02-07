@@ -88,8 +88,17 @@
             padding: 20px;
             display: inline-box;
             margin: 2%;
+        }
+
+        .card-background{
             background-color: rgb(138, 248, 239);
         }
+
+        .user-list-dropdown-btn{
+            align-content: right;
+        }
+        
+
         .btn-primary-outline {
             background-color: transparent;
             border-color:transparent;
@@ -103,6 +112,8 @@
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
         }
         
+
+
         @-webkit-keyframes fadein {
             from {
                 bottom: 0;
@@ -170,7 +181,7 @@
                 <ul class="nav navbar-nav">
                     {{#router "/news"}}News{{/router}}
                     {{#router "/attendance"}}attendance{{/router}}
-                    {{#router "/addPerson"}}Add Person{{/router}}
+                    {{#router "/userList"}}Add Person{{/router}}
                     
                 </ul>
                 

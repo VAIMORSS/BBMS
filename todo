@@ -14,3 +14,8 @@ for the Card : https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_car
         }
 
         document.getElementById("presentAvatar").innerHTML = presentAvtar;*/
+
+add something which shows the list for the message whether the user deleted or not
+
+make something so that we can edit or delete from the attendance page 
+and to see full report make small pop up page which shows the full info of user
