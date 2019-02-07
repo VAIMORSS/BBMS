@@ -1,19 +1,21 @@
+{{#each data}}
 <div class="row">
     <div class="col-md-12">
         <div class="container">
             <h1 class="display-3">Add User</h1>
         </div>
         <hr />
-        <form action="/addPerson" method="POST" class="form-group" >
+        <form action="/updatePerson" method="POST" class="form-group" >
             <fieldset>
                 <legend>Personal Information</legend>
-                
+                <input  type="hidden" name="PersonNum" 
+                value="{{PersonNum}}" />
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="usr">First Name: </label>
                             <input type="text" name="firstName" 
-                          
+                             value="{{firstName}}"
                              class="form-control" placeholder="Firstname" >
                         </div>
                     </div>
@@ -21,7 +23,9 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" name="lastName" class="form-control" placeholder="Lastname" >
+                            <input type="text" name="lastName" 
+                             value="{{lastName}}"
+                             class="form-control" placeholder="Lastname" >
                         </div>
                     </div>
                 </div>
@@ -29,14 +33,18 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="usr">Father Name: </label>
-                            <input type="text" name="fatherName" class="form-control" placeholder="Fathername" >
+                            <input type="text" name="fatherName" 
+                             value="{{fatherName}}"
+                            class="form-control" placeholder="Fathername" >
                         </div>
                     </div>
                     
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Mother Name</label>
-                            <input type="text" name="motherName" class="form-control" placeholder="Mothername" >
+                            <input type="text" name="motherName"
+                             value="{{motherName}}"
+                             class="form-control" placeholder="Mothername" >
                         </div>
                     </div>
                 </div>
@@ -44,7 +52,9 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="usr">Date of birth</label>
-                            <input type="text" name="dob" class="form-control" placeholder="01/01/2001" >
+                            <input type="text" name="dob" 
+                             value="{{dob}}"
+                            class="form-control" placeholder="01/01/2001" >
                         </div>
                     </div>
                 </div>
@@ -54,19 +64,25 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="usr">School Name </label>
-                                <input type="text" name="school" class="form-control" placeholder="ex:'Ashadeep'" >
+                                <input type="text" name="school"
+                                 value="{{school}}"
+                                 class="form-control" placeholder="ex:'Ashadeep'" >
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="usr">STD</label>
-                                <input type="text" name="std" class="form-control" placeholder="ex:'1'" >
+                                <input type="text" name="std" 
+                                 value="{{std}}"
+                                class="form-control" placeholder="ex:'1'" >
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Last Year Percentages</label>
-                                <input type="text" name="firstyrpercentage" class="form-control" placeholder="ex:'88'" >
+                                <input type="text" name="firstyrpercentage" 
+                                 value="{{firstyrpercentage}}"
+                                class="form-control" placeholder="ex:'88'" >
                             </div>
                         </div>
                     </div>
@@ -77,33 +93,41 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="usr">Unit</label>
-                            <input type="text" name="unit" class="form-control" placeholder="Unit Number" >
+                            <input type="text" name="unit" 
+                            value="{{unit}}"    
+                            class="form-control" placeholder="Unit Number" >
                         </div>
                     </div>
                     
                     <div class="col-md-2">
                         <div class="form-group">
                             <label>Society/Apartment</label>
-                            <input type="text" name="society" class="form-control" placeholder="Society name or Apartment name ex:'Swaminarayan Nagar'" >
+                            <input type="text" name="society" class="form-control"
+                            value="{{society}}"    
+                             placeholder="Society name or Apartment name ex:'Swaminarayan Nagar'" >
                         </div>
                     </div>
 
                     <div class="col-md-2">
                         <div class="form-group">
                             <label>Area</label>
-                            <input type="text" name="area" class="form-control" placeholder="Area ex:'Nana Varachha'" >
+                            <input type="text" name="area" class="form-control"
+                            value="{{area}}"
+                             placeholder="Area ex:'Nana Varachha'" >
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
                             <label>city</label>
-                            <input type="text" name="city" class="form-control" placeholder="Area ex:'Nana Varachha'" >
+                            <input type="text" name="city" class="form-control" 
+                            value="{{city}}"
+                            placeholder="Area ex:'Nana Varachha'" >
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="form-group">
                             <label>state</label>
-                            <select class="form-control" name="state" id="department">
+                            <select class="form-control" name="state" id="department" value="{{state}}">
                                     <option value="">Choose</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -121,23 +145,27 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="usr">How many year Satsang?</label>
-                            <input type="number" name="stsngyr" class="form-control" >
+                            <input type="number" name="stsngyr" class="form-control"
+                            value="{{stsngyr}}" >
                         </div>
                         <div class="form-group">
                             <label for="usr">Mom-Dad Satsangi?</label>
-                            <input type="text" name="mdstsg" class="form-control" placeholder="Y/N">
+                            <input type="text" name="mdstsg" class="form-control" placeholder="Y/N"
+                            value="{{mdstsg}}">
                         </div>
                         <div class="form-group">
                             <label for="usr">Daily Puja</label>
-                            <input type="text" name="dailypooja" class="form-control" placeholder="Y/N">
+                            <input type="text" name="dailypooja" class="form-control" placeholder="Y/N"
+                            value="{{dailypooja}}">
                         </div>
                     </div>
                 </div>
 
-                    <button   class="btn btn-lg btn-primary" type="submit">Submit</button> 
+                    <button   class="btn btn-lg btn-primary" type="submit">Update</button> 
                 
             </fieldset>
         </form>
         
     </div>
 </div>
+{{/each}}

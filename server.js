@@ -11,33 +11,19 @@ const clientSession = require("client-sessions");
 const name='person';
 
 
-/****
- *
- * Class variables
- *
- */
-
-
-/****
- *
- * Class variables
- *
- */
-
-
 function onHttpStart() {
     console.log("Express http server listening on: " + HTTP_PORT);
 
 }
 
-
 /***
  * Using client-session
  */
+
 app.use(clientSession({
     cookieName: "session",
     secret: "bbmsbeta",
-    duration: 15 * 60 * 1000,
+    duration: 60 * 60 * 1000,
     activeDuration: 1000 * 60
   }));
 
@@ -54,7 +40,7 @@ function ensureLogin(req, res, next) {
     } else {
       next();
     }
-}
+ }
 
 /***
  * Done client-session
@@ -75,8 +61,6 @@ app.use(express.static('public'));
  * All the Handlebars and their helpers
  *
  * ************** */
-
-
 
 Handlebars.registerHelper('repeter', function (contex, option) {
     var s = "";
@@ -128,8 +112,6 @@ Handlebars.registerHelper('router', function (url, options) {
     return '<li ' + ((app.locals.activeRoute == url) ? 'class="active"' : '') + '> <a href="' + url + '">' + options.fn(this) + '</a></li>';
 });
 
-
-
 /******
  *
  *  Handlebars Done
@@ -143,10 +125,7 @@ app.use(function (req, res, next) {
     next();
 })
 
-
 app.set("view engine", ".hbs");
-
-
 
 app.get("/", (req, res) => {
     res.render("viewTable"); 
@@ -196,6 +175,13 @@ app.post("/endpoint", (req, res) => {
     res.send("<p>lala</p>");
 });
 
+/********
+ * person table definer
+ */
+
+ var personDefiner = function(req){
+    dataFetcher.userDefiner(req.session.user.username);
+ }
 
 /********
  * Login
@@ -216,11 +202,9 @@ var userLogIn={
 
 app.post("/logIn", (req, res) => {
 
-
 //trying to open the table which is connected to the user
 
 dataFetcher.authenticate(req.body.userNameLn,req.body.passwordLn).then((data)=>{
-
         if(data!=""){
             {userLogIn=data[0];}
             req.session.user={
@@ -232,19 +216,13 @@ dataFetcher.authenticate(req.body.userNameLn,req.body.passwordLn).then((data)=>{
                 data:userLogIn[0],
                 layout:"main"
             });
-
-
         }else{
             res.redirect("/");
         }
     }).then(()=>{
-        dataFetcher.userDefiner(req.session.user.username);
+        personDefiner(req);
     });
 });
-
-
-
-
 
 /********
  * Login Done
@@ -283,7 +261,7 @@ app.post("/addPerson",ensureLogin, (req, res) => {
 
 //////////////From Submission //////////////
 app.get("/attendance",ensureLogin, (req, res) => {
-    dataFetcher.userDefiner(req.session.user.username);
+    personDefiner(req);
     dataFetcher.getPersonAll(req).then((data)=>{
         var p = JSON.stringify(data);
         p = JSON.parse(p);
@@ -304,7 +282,7 @@ app.get("/signUp", (req, res) => {
 });
 
 app.get("/userList",ensureLogin, (req, res) => {
-    dataFetcher.userDefiner(req.session.user.username);
+    personDefiner(req);
     dataFetcher.getPersonAll(req).then((data)=>{
         res.render("userList", {
             layout: "main",
@@ -317,8 +295,7 @@ app.get("/userList",ensureLogin, (req, res) => {
 
 app.get("/addPerson",ensureLogin, (req, res) => {
     res.render("addPerson", {
-        layout: "main",
-        data: userLogIn[0]
+        layout: "main"
     });
 });
 
@@ -335,9 +312,6 @@ app.get("/attendanceReport",ensureLogin, (req, res) => {
     });
 });
 
-
-
-
 app.get("/news",ensureLogin, (req, res) => {
     dataFetcher.dailyNews(123).then(data=>{
         this.newsNumber=Object.keys(data).length;
@@ -349,13 +323,12 @@ app.get("/news",ensureLogin, (req, res) => {
 
 });
 
-
 app.get("/logout", (req, res) => {
     req.session.reset();
     res.render("viewTable");
 });
-app.listen(HTTP_PORT, onHttpStart);
 
+app.listen(HTTP_PORT, onHttpStart);
 
 //making the data accesable  in the datafetcher  via export module
 
@@ -364,25 +337,36 @@ module.exports.userInfo=()=>{
 }
 
 
-
-// change this in the BBMS-react
-
-
-
-var allPerson;
-
 /****
  * user list edit and delete
  */
 
  app.get("/userList/edit/:usrNum",(req,res)=>{
+    personDefiner(req);
+    dataFetcher.getPersonByNum(req.params.usrNum).then((data)=>{
+        res.render("updatePerson", {
+            layout: "main",
+            data:data
+        });
+    })
 
  });
 
  app.get("/userList/remove/:usrNum",(req,res)=>{
-    dataFetcher.userDefiner(req.session.user.username);
+    personDefiner(req);   
     console.log("remove function from the server.js called");
     dataFetcher.removeUserByNum(req.params.usrNum).then((data)=>{
         res.redirect("/attendance");
+    });
+ });
+
+
+ app.post("/updatePerson",(req,res)=>{
+    personDefiner(req);
+    console.log(req.body,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"); 
+    dataFetcher.updatePerson(req.body).then((data)=>{
+        console.log(data,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        res.redirect("/attendance");
     })
  });
+

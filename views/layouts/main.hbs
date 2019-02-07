@@ -44,23 +44,34 @@
             background-color:transparent;
             text-align: center;
         }
-        .drop-down-button{
-            background-color: transparent;
-            text-align: end;
+        
+        
+        .dropdown-menu{
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
         }
+
         .icon {
             font-size: 200%;
             width: 120px;
+        }
+
+        .dropDown-fields{
+            border: #54E783;
         }
         .sendRecive {
             padding: 10%;
             text-align: center;
         }
 
-
         .progress{
             margin: 5%;
         }
+
         .form-group{
             margin: 5%;
         }
@@ -98,11 +109,12 @@
             background-color: rgb(138, 248, 239);
         }
 
-        .user-list-dropdown-btn{
-            align-content: right;
+        .user-info-btn{
+            font-size: 25px;
+            text-align: end;
         }
         
-
+    
         .btn-primary-outline {
             background-color: transparent;
             border-color:transparent;
@@ -116,8 +128,19 @@
             box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
         }
         
+        {{!-- pop up modal --}}
 
+        .user-popup-links{
+            margin: 3%;
+        }     
 
+        .dropDown-fields{
+            margin:50%;
+        }
+
+        .user-popup-links a{
+            margin: 2%;
+        }
         @-webkit-keyframes fadein {
             from {
                 bottom: 0;

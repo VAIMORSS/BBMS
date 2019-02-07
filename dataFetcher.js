@@ -121,18 +121,7 @@ module.exports.initialize = () => {
     });
 }
 
-module.exports.getPersonByNum = (num) => {
-    var allPerson = [];    return new Promise((resolve, reject) => {
-        Sequelize.sync().then(()=>{
-            resolve(Person.findAll({
-                where:{
-                    PersonNum:num
-                }
-            }))
-        });
-        resolve(allPerson);
-    });
-}
+
 
 
 
@@ -150,7 +139,16 @@ module.exports.updatePerson = (personData) => {
             firstName:personData.firstName,
             lastName:personData.lastName,
             std:personData.std,
-            school:personData.school
+            school:personData.school,
+            firstyrpercentage:personData.firstyrpercentage,
+            unit:personData.unit,
+            society:personData.society,
+            area:personData.area,
+            city:personData.city,
+            state:personData.state,
+            stsngyr:personData.stsngyr,
+            mdstsg:personData.mdstsg,
+            dailypooja:personData.dailypooja
         },{where :{
             PersonNum:personData.PersonNum
         }}).catch((err)=>{
@@ -246,6 +244,20 @@ module.exports.getPersonAll = (req) => {
  * userList edit and remove methods
  */
 
+module.exports.getPersonByNum = (num) => {
+  return new Promise((resolve, reject) => {
+        Sequelize.sync().then(()=>{
+            resolve(Person.findAll({
+                where:{
+                    PersonNum:num
+                }
+            }))
+        }).catch((err)=>{
+            reject(err);
+        });
+       
+    });
+}
 
  module.exports.editUserByNum = (num)=>{
 

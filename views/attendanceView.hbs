@@ -83,59 +83,85 @@ var per = percent / {{#dataLength data}} {{/dataLength}}* 100;
     }
 
 </script>
+
         <div class="container">
-            <div id="date" class="date">
-
-            </div>
-
             <div>
                 <tr class="row">
                     {{#each data}}
                     <div class="card card-background col-xs-12 col-sm-4 col-md-3 col-lg-2">
-                        <div class="drop-down-button ">
-                            <div class="dropdown user-list-dropdown-btn">
-                                <button class="btn btn-primary-outline  glyphicon glyphicon-cog" type="button" data-toggle="dropdown">
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="glyphicon glyphicon-edit" href="/userList/edit/{{PersonNum}}"> Edit</a></li>
-                                    <li><a class=" glyphicon glyphicon-trash" href="/userList/remove/{{PersonNum}}"> remove</a>
-                                    </li>
-                                </ul>
-                            </div>
+                        <div class="user-info-btn">
+                                <button type="button" 
+                                class=" btn-primary-outline glyphicon glyphicon-info-sign" 
+                                data-toggle="modal"
+                                data-target="#myModal-{{PersonNum}}"></button>
                         </div>
-
+                        
+        
                         <div class="people">
                             <div class="button">
                                 <button id="{{PersonNum}}" class="glyphicon glyphicon-user btn btn-primary-outline icon">
                                 </button>
                             </div>
                         </div>
-
+        
                         <div class="nameInAttendance">
                             <h4> {{firstName}}</h4>
-                            <h5>{{lastName}}</h5>
+                            <h5> {{lastName}}</h5>
                         </div>
+        
+                    </div>
+                    <div class="modal fade" id="myModal-{{PersonNum}}" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">{{firstName}} {{lastName}}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>user info</p>
+                                </div>
+                                <tr class="modal-footer">
+                                    <div class="user-popup-links">
+                                            <td class="dropDown-fields"><a class="glyphicon glyphicon-edit" href="/userList/edit/{{PersonNum}}">
+                                            Edit</a></td>
 
+                                            <td class="dropDown-fields"><a class=" glyphicon glyphicon-trash"
+                                                    href="/userList/remove/{{PersonNum}}"> remove</a>
+                                            </td>
+                                            
+                                    </div>
+                                </tr>
+                            </div>
+                        </div>
                     </div>
                     {{/each}}
-                    
+        
                 </tr>
             </div>
 
+
+            
+        
+
             <div id="snackbar">Some text some message..</div>
-            <p id="presentPeople"></p>
-        </div>
-    <div class="progress">
-        <div id="Present" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
-            style="width:50%">
-            Present
-        </div>
-        <div id="Absent" class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width:50%">
-            Absent
-        </div>
-        {{!-- add one bar here for late also --}}
-    </div>
-<div class="btn-group-lg sendRecive">
-    <button class="btn btn-primary" id="presentList">Click</button>
-    <button class="btn btn-primary" id="send">Send</button>
-</div>
+                <p id="presentPeople"></p>
+            </div>
+
+
+            <div class="progress">
+                <div id="Present" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                    style="width:50%">
+                    Present
+                </div>
+                <div id="Absent" class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width:50%">
+                    Absent
+                </div>
+                {{!-- add one bar here for late also --}}
+            </div>
+
+
+            <div class="btn-group-lg sendRecive">
+                <button class="btn btn-primary" id="presentList">Click</button>
+                <button class="btn btn-primary" id="send">Send</button>
+            </div>
