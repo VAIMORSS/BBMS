@@ -93,18 +93,6 @@ Handlebars.registerHelper('repeter1', function (contex,option) {
     return i;
 });
 
-Handlebars.registerHelper('cardMaker',function(contex,option){
-    var cards=" ";
-    for(var i=0;i<Object.keys(contex).length;i++){
-        cards+="<div class=\"panel panel-default bootcards-media card\">"+
-               "<div class=\"panel-heading card-head\">"+contex[i].head+"</div>"+
-               "<div class=\"panel-body card-body\">"+contex[i].main+"</div>"+
-               "<div class=\"panel-footer card-footer\">"+contex[i].footer+"</div>"+
-               "</div> "+
-               "</td> ";
-    }
-    return cards;
-});
 
 //helper to direct the request at the different part of the application
 
@@ -212,10 +200,11 @@ dataFetcher.authenticate(req.body.userNameLn,req.body.passwordLn).then((data)=>{
                 password:userLogIn.password
             };
 
-            res.render("welcome",{
-                data:userLogIn[0],
-                layout:"main"
-            });
+            // res.render("welcome",{
+            //     data:userLogIn[0],
+            //     layout:"main"
+            // });
+            res.redirect('attendance');
         }else{
             res.redirect("/");
         }
