@@ -6,9 +6,7 @@
         float: left;
     }
 
-    body {
-        background-color: rgba(83, 90, 90, 0.178);
-    }
+    
 
     .news-card-head {}
 
@@ -25,7 +23,7 @@
 
 
     }
-
+    
     .date h3 {
         color: white;
         font-size: 15pt;
@@ -34,10 +32,10 @@
     }
 
     .img {
-        position: absolute;
         background: url(https://images.unsplash.com/photo-1496979551903-46e46589a88b?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=cda12b505afa1beb06e49d89014cbd65&auto=format&fit=crop&w=634&q=80)20% 1% / cover no-repeat;
 
     }
+    
     .footer{
         background-color: white;
         margin-top: 50%;
@@ -55,16 +53,18 @@
         margin-right: 5px;
     }
     .news{
-        padding-top: 7%;
+        padding-top: 10%;
     }
-    
+
 
 </style>
 
 <div class="container">
-    <div>
-        <div class="news-card col-lg-4">
+    <div class="row">
+        {{#each data}}
+        <div class="news-card  col-lg-4 col-md-5 col-sm-6 col-xs-12">
             <div class="img">
+                
                 <div class="news-card-head">
                     <div class="date">
                         <h3>12</h3>
@@ -75,22 +75,18 @@
                 <div class="footer">
                     <div class="name-icon-bar">
                         <div class="name">
-                            <h3>name</h3>
+                            <h4>name</h4>
                         </div>
                         <div class="btn-bar">
-                            <h3>icon</h3>
+                            <h4 class="	glyphicon glyphicon-th-list"></h4>
                         </div>
                     </div>
                     <div class="news">
                         <div class="head">
-                            <h1>news</h1>
+                            <h4>{{head}}</h4>
                         </div>
                         <div class="body">
-                            <h5>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae, ex quam vero non
-                                voluptatum vitae laudantium ea, voluptatem quibusdam aut dolorum quas magnam numquam
-                                odio repellat beatae vel, rem modi?Quibusdam totam non accusamus numquam accusantium
-                                doloribus dicta magnam eum ad error optio deleniti culpa sapiente libero sequi,
-                                reprehenderit consequatur nulla rerum qui nostrum, eveniet id cumque? Quia, quam eaque.
+                            <h5>{{body}}
                             </h5>
                         </div>
                     </div>
@@ -98,6 +94,8 @@
 
             </div>
         </div>
+        {{/each}}
+        
 
     </div>
 

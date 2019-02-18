@@ -29,12 +29,13 @@ var per = percent / {{#dataLength data}} {{/dataLength}}* 100;
             absent.textContent = 100 - per.toFixed(0) + ' % are Absent';
         });
 
-        $("#presentList").click(function () { // to see all present 
+        /*$("#presentList").click(function () { // to see all present 
             var ppl = "";
             console.log(ppl + "1");
             /*
               something is pushing the id of the button in side the set and to remove that this funntion delete that
             */
+            /*
             if (present.has('presentList')) {
                 present.delete('presentList');// resolve this in an efficient way
             }
@@ -44,7 +45,7 @@ var per = percent / {{#dataLength data}} {{/dataLength}}* 100;
             console.log("is this working???");
             console.log(ppl);
             $("#presentpeople").text(ppl);
-        });
+        });*/
 
 
 
@@ -161,6 +162,6 @@ var per = percent / {{#dataLength data}} {{/dataLength}}* 100;
 
 
             <div class="btn-group-lg sendRecive">
-                <button class="btn btn-primary" id="presentList">Click</button>
-                <button class="btn btn-primary" id="send">Send</button>
+                {{!-- <button class="btn btn-primary" id="presentList">Click</button> --}}
+                <button class="btn btn-primary" id="send">Submit</button>
             </div>

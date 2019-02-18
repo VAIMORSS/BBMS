@@ -2,14 +2,11 @@ const express = require("express");
 const app = express();
 const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
-const path = require("path");
 const Handlebars = require("handlebars");
 const HTTP_PORT = process.env.PORT || 8080;
-const fs = require("fs");
 const dataFetcher = require("./dataFetcher.js");
 const clientSession = require("client-sessions");
-const name='person';
-
+const mongoDb = require("./mongoData");
 
 function onHttpStart() {
     console.log("Express http server listening on: " + HTTP_PORT);
@@ -24,7 +21,7 @@ app.use(clientSession({
     cookieName: "session",
     secret: "bbmsbeta",
     duration: 60 * 60 * 1000,
-    activeDuration: 1000 * 60
+    activeDuration: 1000 * 60 * 10
   }));
 
   const user = {
@@ -158,9 +155,13 @@ app.post("/asignup", (req, res) => {
  *
  */
 
-app.post("/endpoint", (req, res) => {
+app.post("/endpoint", (req,res) => {
     var json_data = JSON.parse(req.body.data);
-    res.send("<p>lala</p>");
+    console.log(json_data);
+    mongoDb.addAttendance(req).then((data)=>{
+        console.log(data,">>>>>>>");
+    });
+    res.send('200');
 });
 
 /********
