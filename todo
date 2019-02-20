@@ -1,21 +1,7 @@
-for the Card : https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_cards
-
- /* var presentAvtar = "";
-    for (var i = 0; i < {{ #dataLength data }}{
-        {
-            /dataLength}};i++){
-            presentAvtar += "<div class=\"card col-xs-12 col-sm-4 col-md-3 col-lg-2\">" +
-                "<div class=\"button\">" +
-                "<button id=\"" + i + "\" class=\"glyphicon         glyphicon-user btn btn-primary-outline icon\"></button></div>" +
-                "<div class=\"name\">" +
-                "<h4>" + " " + "</h4>" +
-                "</div>" +
-                "</div>";
-        }
-
-        document.getElementById("presentAvatar").innerHTML = presentAvtar;*/
-
 add something which shows the list for the message whether the user deleted or not
 
 make something so that we can edit or delete from the attendance page 
 and to see full report make small pop up page which shows the full info of user
+
+how to change the existing document in the mongoDB 
+one answer for the rollnumbr id $push and $each

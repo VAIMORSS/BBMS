@@ -21,7 +21,7 @@ app.use(clientSession({
     cookieName: "session",
     secret: "bbmsbeta",
     duration: 60 * 60 * 1000,
-    activeDuration: 1000 * 60 * 10
+    activeDuration: 1000 * 60 
   }));
 
   const user = {
@@ -135,10 +135,14 @@ app.post("/asignup", (req, res) => {
                 dataFetcher.authenticate(data.userName,data.password).then((data)=>{
                     if(data!=""){
                         {userLogIn=data;}
+                        
                         req.session.user={
                             username:data.username,
                             password:data.password
                         };
+
+                        //making ducument on the mongo db database
+                        mongoDb.signup(userLogIn[0].userName);
 
                         res.render("welcome",{
                             data:userLogIn[0],
@@ -169,6 +173,7 @@ app.post("/endpoint", (req,res) => {
  */
 
  var personDefiner = function(req){
+     console.log(req.session.user.username, "this the username look at this")
     dataFetcher.userDefiner(req.session.user.username);
  }
 
@@ -239,6 +244,7 @@ var add = {
 }
 
 app.post("/addPerson",ensureLogin, (req, res) => {
+    personDefiner(req);
    dataFetcher.addPerson(req.body).then((data => {
         {add=req.body;}
     res.redirect("/addPerson");
