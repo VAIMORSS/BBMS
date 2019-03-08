@@ -200,7 +200,6 @@ module.exports.addPerson = (personData) => {
 // userDefiner after the login is done
 var currentUserName;
 module.exports.userDefiner=(userInfo)=>{
-    console.log(userInfo, "userdefiner is working with the userdefiner")
     currentUserName=userInfo;
     Person = Sequelize.define(userInfo, {
        PersonNum: {

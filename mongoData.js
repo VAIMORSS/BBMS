@@ -11,27 +11,25 @@ var attendance_list = new Schema({
     "username":{
         type:String,
         unique:true
-    },"dateWiseAttendance":[{
-        "date":{
-            type:String,
-            unique:true
-        },
-        "presentList":[{
-            "personNum":Number
-        }]
-    }]
+    },"datewise":{
+        type:Array,
+        "date":String,
+        "personList":Array
+        
+    }
 }); 
 
 var attedanceAtDb = db.model("attendance_list", attendance_list);
 
 module.exports.signup=(data)=>{
 
+
     let newAttendance = new attedanceAtDb({
         username:data
     });
-
+    newAttendance.save((err)=>{
     return new Promise((resolve, reject)=>{
-        newAttendance.save((err)=>{
+        
             if(err){
                 reject(err,"error");
             }else{
@@ -41,56 +39,51 @@ module.exports.signup=(data)=>{
     });
 }
 
-module.exports.addAttendance =(req) =>{
+module.exports.addAttendanceDate =(req) =>{
     let d= new Date();
-    let date = d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()+":"+d.getHours();
+    let date = d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()+":"+d.getHours()+":"+d.getMinutes();
 
     let newAttendance = new attedanceAtDb({
-        username:req.session.user.username,
-        dateWiseAttendance:{
-            date:date
-        }
+        username:req.session.user.username
     });
 
     return new Promise((resolve, reject)=>{
-                attedanceAtDb.findOne({username:req.session.user.username},{dateWiseAttendance:[{date:date}]},(err,result)=>{
-                            if(err){
-                                console.log(err);
-                            }else{
-                               attedanceAtDb.updateOne(
-                                   {username:req.session.user.username},
-                                   {dateWiseAttendance:{
-                                       $push:{date:{$each:[date]}}
-                                   }}
-                               ,(err,result)=>{
-                                    console.log(err,"   ",result);
-                               });
-                            }
-                        });
-           
-    });
-    
-    // return new Promise((resolve, reject)=>{
-    //     var tempUser=[];
-    //     attedanceAtDb.findOne({username:req.session.user.username},{dateWiseAttendance:{date:date}},(err,result)=>{
-    //         if(err){
-    //             console.log(err);
-    //         }else{
-    //             console.log(result);
-    //             result.dateWiseAttendance.presentList=req.body.data;
-    //             console.log(result.dateWiseAttendance.presentList)
-    //             tempUser=JSON.stringify(result);
-    //         }
-    //     });
-    //     console.log(tempUser.username);
-    //    // tempUser.dateWiseAttendance[0].presentList=JSON.parse(req.body.data);
-    //     console.log(tempUser);
-    // })
-    
-    
+                //upsrt option ne and push
+         newAttendance.save((err,result)=>{
+             if(err){
+                 reject(err);
+             }else{
+                 resolve(result);
+             }
+         })
+ 
+    });  
 }
 
+module.exports.addAttendance = (req) =>{
+    let d= new Date();
+    let date = d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear();
 
+    return new Promise((resolve, reject)=>{
+        //upsrt option ne and push
+        attedanceAtDb.update({
+                    "username":req.session.user.username},{
+                    $addToSet:{
+                        "datewise":{
+                            "date":date,
+                            "personList":req.body.data                       
+                    }}
+            },{upsert:false}
+        //date is added but now need to add
+        ,(err,result)=>{
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+        })
+});
+}
 
 db.on('error',(err)=>{
     console.log("db err");

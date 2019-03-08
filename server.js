@@ -134,20 +134,17 @@ app.post("/asignup", (req, res) => {
             }else{
                 dataFetcher.authenticate(data.userName,data.password).then((data)=>{
                     if(data!=""){
-                        {userLogIn=data;}
-                        
+                        userLogIn=data;
                         req.session.user={
-                            username:data.username,
+                            username:data.userName,
                             password:data.password
                         };
 
                         //making ducument on the mongo db database
                         mongoDb.signup(userLogIn[0].userName);
 
-                        res.render("welcome",{
-                            data:userLogIn[0],
-                            layout:"main"
-                        });
+
+                        res.redirect('/');
                     }});
             }
         }
@@ -159,9 +156,13 @@ app.post("/asignup", (req, res) => {
  *
  */
 
-app.post("/endpoint", (req,res) => {
+app.post("/endpoint", ensureLogin,(req,res) => {
     var json_data = JSON.parse(req.body.data);
+    req.body.data=json_data;
     console.log(json_data);
+    mongoDb.addAttendanceDate(req).then((data)=>{
+        console.log(data,">>>>>>>");
+    });
     mongoDb.addAttendance(req).then((data)=>{
         console.log(data,">>>>>>>");
     });

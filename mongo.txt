@@ -1,1 +1,25 @@
 mongodb://bbms:<PASSWORD>@cluster0-shard-00-00-enqlo.mongodb.net:27017,cluster0-shard-00-01-enqlo.mongodb.net:27017,cluster0-shard-00-02-enqlo.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true
+
+
+
+test.attendance_lists.find({
+    username:{$exists:true}
+})
+
+
+
+
+ // attedanceAtDb.findOne({username:req.session.user.username},{dateWiseAttendance:[{date:date}]},(err,result)=>{
+                //             if(err){
+                //                 console.log(err);
+                //             }else{
+                //                attedanceAtDb.update(
+                //                    {username:req.session.user.username},
+                //                    {dateWiseAttendance:{
+                //                        $push:{date:{$each:[date]}}
+                //                    }}
+                //                ,(err,result)=>{
+                //                     console.log(err,"   ",result);
+                //                });
+                //             }
+                //         });

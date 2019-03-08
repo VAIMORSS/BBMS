@@ -11,15 +11,27 @@
         $(".people button").click(function (event) {
             //alert(event.target.id);
             //  myFunction(event.target.id);// resole the problem to make the butttton only for the button which are the present taker
-            if (present.has(event.target.id)) {
+                
+            if (present.has(parseInt(event.target.id))) {
                 $(this).css('color', 'red');
-                present.delete(event.target.id);
+               // alert(event.target.id);
+               console.log("in the list");
+                present.delete(parseInt(event.target.id));
                 percent--;
             } else {
+               console.log("not in the list");
+                //alert(event.target.id);
                 $(this).css('color', 'green');
-                present.add(event.target.id);
+                present.add(parseInt(event.target.id));
                 percent++;
             }
+
+            console.log("list started")
+                present.forEach(x =>{
+                 console.log(x);
+
+                });
+
 var per = percent / {{#dataLength data}} {{/dataLength}}* 100;
             var presented = document.getElementById("Present");
             presented.style.width = per + '%';
@@ -29,25 +41,7 @@ var per = percent / {{#dataLength data}} {{/dataLength}}* 100;
             absent.textContent = 100 - per.toFixed(0) + ' % are Absent';
         });
 
-        /*$("#presentList").click(function () { // to see all present 
-            var ppl = "";
-            console.log(ppl + "1");
-            /*
-              something is pushing the id of the button in side the set and to remove that this funntion delete that
-            */
-            /*
-            if (present.has('presentList')) {
-                present.delete('presentList');// resolve this in an efficient way
-            }
-            present.forEach(pple => {
-                ppl += 'present ' + pple + '\n';
-            });
-            console.log("is this working???");
-            console.log(ppl);
-            $("#presentpeople").text(ppl);
-        });*/
-
-
+        
 
         $("#send").click(function () {
             var jsonObjString = JSON.stringify(present);
@@ -89,7 +83,7 @@ var per = percent / {{#dataLength data}} {{/dataLength}}* 100;
             <div>
                 <tr class="row">
                     {{#each data}}
-                    <div class="card card-background col-xs-12 col-sm-4 col-md-3 col-lg-2">
+                    <div class="card card-background col-xs-5 col-sm-4 col-md-3 col-lg-2">
                         <div class="user-info-btn">
                                 <button type="button" 
                                 class=" btn-primary-outline glyphicon glyphicon-info-sign" 
